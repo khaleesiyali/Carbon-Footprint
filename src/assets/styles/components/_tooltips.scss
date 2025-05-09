@@ -1,0 +1,54 @@
+/* Tooltips */
+
+.tooltip-demo,
+.popover-demo {
+	.btn-toolbar {
+		button {
+			position: relative;
+			display: inline-block;
+			opacity: 1;
+			margin: 0 10px 10px 0;
+		}
+
+		.bs-tooltip-bottom-demo,
+		.bs-tooltip-top-demo {
+			.arrow {
+				left: 50%;
+			}
+		}
+
+		.bs-tooltip-right-demo,
+		.bs-tooltip-left-demo {
+			.arrow {
+				&:before {
+					top: calc((100%-#{$tooltip-arrow-width})/2);
+				}
+			}
+		}
+	}
+}
+
+.tooltip {
+	position: absolute;
+	font-size: $tooltip-font-size;
+	min-width: 5.625rem;
+	z-index: 1029;
+	margin: 4px;
+}
+
+.bs-tooltip-end,
+.bs-tooltip-start {
+	position: absolute;
+	z-index: 1070;
+	display: -webkit-box;
+}
+
+.popover {
+	position: relative;
+}
+
+@each $color, $value in $theme-colors {
+	.tooltip-#{$color} {
+		@include tooltip-variant($color);
+	}
+}

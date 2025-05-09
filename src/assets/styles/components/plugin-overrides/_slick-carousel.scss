@@ -1,0 +1,54 @@
+/* Slick-carousel */
+
+.slick-slider {
+  .slick-arrow {
+
+    &.slick-prev,
+    &.slick-next {
+      z-index: 999;
+      width: 40px;
+      height: 40px;
+
+      &::before {
+        font-size: 40px;
+        color: transparent !important;
+      }
+    }
+
+    &.slick-prev {
+      left: 25px;
+    }
+
+    &.slick-next {
+      right: 25px;
+    }
+  }
+
+  .slick-list {
+    .slick-track {
+      .slick-slide {
+        position: relative;
+        color: $white;
+      }
+    }
+  }
+}
+
+.slick-dots li.slick-active button:before {
+  color: $white !important;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: .75;
+  color: #ffffff;
+}
+
+.slick-dots li button:hover:before,
+.slick-dots li button:focus:before {
+  opacity: 1;
+  color: gray;
+}
+
+.slick-dots li button:before {
+  color: $gray-light !important;
+}

@@ -1,0 +1,188 @@
+/* Forms */
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group-append,
+.input-group-prepend {
+  color: $input-placeholder-color;
+  width: auto;
+  border: none;
+
+  .input-group-text {
+    border-color: $border-color;
+    padding: .92rem 0.75rem;
+    color: $input-placeholder-color;
+    margin-top: 5px;
+    background: transparent;
+  }
+
+  button {
+    margin-top: 0.3rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    height: 2.8rem;
+  }
+}
+
+.custom-control {
+  .custom-control-label {
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+}
+
+.form-control {
+  border: 1px solid $border-color;
+  // font-size: $input-font-size;
+  margin-top: 5px;
+  margin-bottom: 1rem;
+  background: inherit;
+
+  &:focus {
+    background: inherit;
+  }
+}
+
+.form-control-sm {
+  font-size: 0.775rem;
+}
+
+.form-control-lg {
+  padding: 0.94rem 0.9rem;
+}
+
+.form-select {
+  border: 1px solid $border-color;
+  // font-size: $input-font-size;
+  margin-bottom: 1rem;
+  margin-top: 5px;
+  color: $white;
+  background-color: transparent;
+  padding: .4375rem .75rem;
+}
+
+select {
+
+  option {
+    background: $input-bg;
+  }
+
+  &.form-select {
+    padding: .75rem .75rem;
+    border: 0;
+    outline: 1px solid $border-color;
+    color: $white;
+    background-color: transparent;
+
+    &:focus {
+      outline: 1px solid $border-color;
+    }
+
+    @each $color,
+    $value in $theme-colors {
+      &.border-#{$color} {
+        outline: 1px solid $value;
+
+        &:focus {
+          outline: 1px solid $value;
+        }
+      }
+    }
+  }
+}
+
+.form-group {
+  label {
+    font-size: $default-font-size;
+    line-height: 1;
+    vertical-align: top;
+    margin-bottom: .5rem;
+  }
+
+  &.has-danger {
+    .form-control {
+      border-color: $danger;
+    }
+  }
+
+  .file-upload-default {
+    visibility: hidden;
+    position: absolute;
+  }
+
+  .file-upload-info {
+    background: transparent;
+  }
+}
+
+.custom-file {
+  ::-webkit-file-upload-button {
+    display: none;
+  }
+
+  // .visibility-hidden {
+  //   visibility: hidden;
+  //   display: none;
+  // }
+  .custom-file-label {
+    background: transparent;
+    border: 1px solid $border-color;
+    height: calc(2.25rem + 2px);
+    font-weight: normal;
+    width: 100%;
+    font-size: 0.875rem;
+    padding: 0.625rem 0.6875rem;
+    border-radius: 2px;
+    position: relative;
+
+    &:after {
+      background-color: $primary;
+      height: auto;
+      @extend .btn-primary;
+      bottom: 0;
+      z-index: 3;
+      display: block;
+      // height: calc(1.5em + .75rem);
+      content: "Browse";
+      // background-color: #e9ecef;
+      border-left: inherit;
+      border-radius: 0 .25rem .25rem 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: .375rem .75rem;
+      line-height: 1.5;
+      // color: #495057;
+    }
+  }
+
+}
+
+.form-check .form-check-input {
+  float: left;
+  margin-left: .1em;
+}
+
+.rbt-menu {
+  position: inherit;
+}
+
+.rbt-close {
+  background: $primary;
+  font-size: 10px;
+}
+
+.rbt-token-label {
+  margin-right: 7px;
+}
+
+.rbt-token {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.css-tj5bde-Svg {
+  color: white;
+}

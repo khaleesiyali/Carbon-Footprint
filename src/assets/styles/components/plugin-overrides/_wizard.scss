@@ -1,0 +1,128 @@
+// Wizard
+
+.form-wizard {
+  @extend .px-0;
+  ol {
+    &.go2441762052 {
+      @include display-flex;
+      @include justify-content(space-between);
+      @include flex-wrap(wrap);
+      padding-left: 0;
+      list-style-type: none;
+      @media(max-width: 767px) {
+        @include justify-content(normal);
+      }
+      li { 
+        background: #e6e9ed;
+        @extend .col;
+        text-align: center;
+        padding: 1em 1em;
+        margin: 0 0.5em 0.5em;
+        border-radius: 5px;
+        font-weight: 600;
+        justify-content: space-between;
+        color: $dark;
+        &.go2791332690 {
+          line-height: 1;
+          border-bottom: none;
+          &:before {
+            bottom: -2rem;
+            display: none;
+          }
+          &.go433304200 {
+            background: rgba($primary, .3);
+            color: $white;
+          }
+          &.go3842760039 {
+            background: $primary;
+            color: $white;
+          }
+        }
+        @media(max-width: 767px) {
+          width: auto;
+          &:first-child {
+            margin-left: auto;
+          }
+        }
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+        em {
+          margin-right: 1px;
+          font-style: inherit;
+        }
+      }
+    }
+  }
+  button {
+    @extend .btn;
+    @extend .ms-2;
+    @extend .btn-primary;
+    @extend .mt-3;
+    &:focus {
+      outline: 0;
+    }
+
+  }
+  .content {
+    min-height: 25rem;
+    padding: 2rem;
+    border-radius: 5px;
+    border: 1px solid $border-color;
+    overflow: scroll;
+    text-align: left;
+  }
+  > div {
+    &:not(.content) {
+      margin-top: 20px;
+      text-align: right;
+      @media(max-width: 767px) {
+        text-align: center;
+      }
+      > button {
+        @extend .btn;
+        @extend .btn-primary;
+        + button {
+          margin-left: 10px;
+          @media(max-width: 767px) {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+&.form-wizard-vertical {
+  .container {
+    @extend .row;
+    @extend .m-0;
+    ol {
+      display: block;
+      &.progtrckr {
+        @extend .col-md-3;
+        @extend .ps-0;
+        li {
+          margin: 0.5em 0 0.5em 0;
+          &:first-child {
+            margin-top: 0;
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    .content {
+      @extend .col-md-9;
+    }
+    > div {
+      &:not(.content) {
+        @extend .col-md-12;
+        @extend .px-0;
+      }
+    }
+  }
+}
+}

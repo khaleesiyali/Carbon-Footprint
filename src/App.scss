@@ -1,0 +1,132 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* === Plugin styles === */
+
+// @import "~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+// @import "~chartist/dist/chartist.min.css";
+// @import "nouislider/distribute/nouislider.min.css";
+// @import "slick-carousel/slick/slick.css";
+// @import "slick-carousel/slick/slick-theme.css";
+// @import '@fullcalendar/core/main.css';
+// @import '@fullcalendar/daygrid/main.css';
+// @import '~react-bootstrap-typeahead/css/Typeahead.css';
+// @import '~react-bootstrap-typeahead/css/Typeahead-bs4.css';
+@import 'react-datepicker/dist/react-datepicker.css';
+@import "react-toastify/dist/ReactToastify.css";
+@import 'ckeditor5/ckeditor5.css';
+@import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+@import "../src/assets/styles/variables";
+@import "compass-mixins/lib/compass";
+@import "compass-mixins/lib/animate";
+@import "bootstrap/scss/bootstrap";
+@import "../src/assets/styles/fonts";
+@import "../src/assets/styles/functions";
+
+/* === Icon fonts === */
+// @import "ti-icons/css/themify-icons.css";
+@import "@mdi/font/css/materialdesignicons.min.css";
+@import "font-awesome/css/font-awesome";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
+@import '@fortawesome/fontawesome-free/css/regular.min.css';
+@import '@fortawesome/fontawesome-free/css/brands.min.css';
+@import "flag-icons/css/flag-icons";
+@import "simple-line-icons/css/simple-line-icons.css";
+@import "simple-line-icons/scss/simple-line-icons";
+@import "typicons.font/src/font/typicons.css";
+
+
+/* === Template mixins === */
+@import "../src/assets/styles/mixins/animation";
+@import "../src/assets/styles/mixins/badges";
+@import "../src/assets/styles/mixins/buttons";
+@import "../src/assets/styles/mixins/misc";
+@import "../src/assets/styles/mixins/color-functions";
+@import "../src/assets/styles/mixins/cards";
+@import "../src/assets/styles/mixins/blockqoute";
+@import "../src/assets/styles/mixins/popovers";
+@import "../src/assets/styles/mixins/tooltips";
+@import "../src/assets/styles/mixins/no-ui-slider";
+
+
+/* === Core Styles === */
+@import "../src/assets/styles/background";
+@import "../src/assets/styles/typography";
+@import "../src/assets/styles/reset";
+@import "../src/assets/styles/responsive";
+@import "../src/assets/styles/misc";
+@import "../src/assets/styles/utilities";
+@import "../src/assets/styles/demo";
+@import "../src/assets/styles/spinner";
+@import "../src/assets/styles/dashboard";
+
+/* === Components === */
+
+@import "../src/assets/styles/components/widgets";
+@import "../src/assets/styles/components/forms";
+@import "../src/assets/styles/components/checkbox-radio";
+@import "../src/assets/styles/components/icons";
+@import "../src/assets/styles/components/tables";
+@import "../src/assets/styles/components/accordion";
+@import "../src/assets/styles/components/buttons";
+@import "../src/assets/styles/components/breadcrumbs";
+@import "../src/assets/styles/components/badges";
+@import "../src/assets/styles/components/cards";
+@import "../src/assets/styles/components/preview";
+@import "../src/assets/styles/components/tooltips";
+@import "../src/assets/styles/components/user-profile";
+@import "../src/assets/styles/components/popovers";
+@import "../src/assets/styles/components/lists";
+@import "../src/assets/styles/components/bootstrap-progress";
+@import "../src/assets/styles/components/bootstrap-alerts";
+@import "../src/assets/styles/components/tabs";
+@import "../src/assets/styles/components/dropdowns";
+@import "../src/assets/styles/components/pagination";
+@import "../src/assets/styles/components/loaders/loaders";
+@import "../src/assets/styles/components/timeline";
+@import "../src/assets/styles/components/portfolio";
+@import "../src/assets/styles/components/pricing-table";
+@import "../src/assets/styles/components/email/mail-list-container";
+@import "../src/assets/styles/components/email/mail-sidebar";
+@import "../src/assets/styles/components/email/message-content";
+@import "../src/assets/styles/components/todo-list";
+@import "../src/assets/styles/components/spinner";
+@import "../src/assets/styles/components/tickets";
+@import "../src/assets/styles/components/project-list";
+@import "../src/assets/styles/components/product-tile";
+@import "../src/assets/styles/components/user-listing";
+@import "../src/assets/styles/components/landing";
+@import "../src/assets/styles/components/chats";
+@import "../src/assets/styles/components/kanban";
+@import "../src/assets/styles/components/react-table";
+@import "./assets/styles/components/react-select";
+@import "../src/assets/styles/components/modal";
+
+@import "../src/assets/styles/components/landing-screens/auth";
+
+/* === Plugin Overrides === */
+@import "../src/assets/styles/components/plugin-overrides/contex-menu";
+@import "../src/assets/styles/components/plugin-overrides/no-ui-slider";
+@import "../src/assets/styles/components/plugin-overrides/slick-carousel";
+@import "../src/assets/styles/components/plugin-overrides/rating";
+@import "../src/assets/styles/components/plugin-overrides/date-picker";
+@import "../src/assets/styles/components/plugin-overrides/wizard";
+@import "../src/assets/styles/components/plugin-overrides/react-bootstrap-table";
+@import "../src/assets/styles/components/plugin-overrides/sweet-alert";
+@import "../src/assets/styles/components/plugin-overrides/full-calendar";
+@import "../src/assets/styles/components/plugin-overrides/react-photo-gallery";
+@import "../src/assets/styles/components/plugin-overrides/react-tag-autocomplete";
+@import "../src/assets/styles/components/plugin-overrides/jquery-jvectormap";
+@import "../src/assets/styles/components/plugin-overrides/react-table";
+
+/* === Layout === */
+@import "../src/assets/styles/navbar";
+@import "../src/assets/styles/sidebar";
+@import "../src/assets/styles/footer";
+@import "../src/assets/styles/layout";
+@import "../src/assets/styles/settings-panel";

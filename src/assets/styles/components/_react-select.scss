@@ -1,0 +1,56 @@
+.css-b62m3t-container {
+  .css-13cymwt-control {
+    background-color: #2A3038;
+    border: 1px solid $border-color;
+
+    &:hover {
+      border: inherit;
+    }
+
+    &:focus {
+      background: red;
+    }
+  }
+
+  .css-t3ipsp-control {
+    background-color: #2A3038;
+  }
+
+  .css-1nmdiq5-menu {
+    background-color: #2A3038;
+
+    .css-d7l1ni-option {
+      cursor: default;
+      display: block;
+      font-size: inherit;
+      width: 100%;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      background-color: #94a0b2;
+      color: inherit;
+      padding: 8px 12px;
+      box-sizing: border-box;
+    }
+
+  }
+
+  .css-1dimb5e-singleValue {
+    color: $white;
+  }
+
+
+  .css-1p3m7a8-multiValue {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-width: 0;
+    background-color: map-get($theme-colors, primary);
+    margin: 2px;
+    box-sizing: border-box;
+  }
+
+}

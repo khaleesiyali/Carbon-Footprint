@@ -1,0 +1,28 @@
+/* ckeditor-dark-theme.css */
+.ck.ck-editor__main>.ck-editor__editable {
+    background: #2f3136;
+    color: #ffffff;
+}
+
+.ck.ck-toolbar {
+    background: #202225;
+    border: 1px solid #40444b;
+}
+
+.ck.ck-toolbar .ck-toolbar__separator {
+    background: #40444b;
+}
+
+.ck.ck-button,
+.ck.ck-button.ck-on {
+    color: #dcddde;
+    background: #202225;
+}
+
+.ck.ck-button:hover,
+.ck.ck-button.ck-on:hover {
+    background: #36393f;
+    color: #ffffff;
+}
+
+/* Add more styles as needed */

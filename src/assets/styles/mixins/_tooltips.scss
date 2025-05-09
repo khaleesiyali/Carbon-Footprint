@@ -1,0 +1,32 @@
+// Tooltip color  variations
+
+@mixin tooltip-variant($color) {
+  .tooltip-inner {
+    background: map-get($theme-colors, $color );
+    color: $white;
+  }
+
+  &.bs-tooltip-top {
+    .tooltip-arrow::before {
+      border-top-color: map-get($theme-colors, $color );
+    }
+  }
+
+  &.bs-tooltip-right {
+    .tooltip-arrow::before {
+      border-right-color: map-get($theme-colors, $color );
+    }
+  }
+
+  &.bs-tooltip-bottom {
+    .tooltip-arrow::before {
+      border-bottom-color: map-get($theme-colors, $color );
+    }
+  }
+
+  &.bs-tooltip-left {
+    .tooltip-arrow::before {
+      border-left-color: map-get($theme-colors, $color );
+    }
+  }
+}
