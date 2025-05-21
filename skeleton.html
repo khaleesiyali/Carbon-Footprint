@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint Calculator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; background: #f4f4f4; color: #333; }
+    nav { background: #2c3e50; color: #fff; padding: 1em; display: flex; gap: 1em; }
+    nav a { color: #fff; text-decoration: none; padding: 0.5em; }
+    nav a.active { background: #1abc9c; border-radius: 4px; }
+    main { max-width: 800px; margin: 2em auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);}    
+    section { display: none; }
+    section.active { display: block; }
+    h1, h2 { margin-bottom: 0.5em; }
+    form div { margin-bottom: 1em; }
+    form label { display: block; margin-bottom: 0.3em; }
+    form input, form select { width: 100%; padding: 0.5em; }
+    button { cursor: pointer; padding: 0.7em 1.2em; border: none; border-radius: 4px; background: #1abc9c; color: #fff; }
+    .mood { font-size: 3em; margin-top: 1em; }
+    .faq { margin-top: 1em; }
+    .faq dt { font-weight: bold; }
+    .faq dd { margin: 0 0 1em 1em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#" data-section="dashboard" class="active">Dashboard</a>
+    <a href="#" data-section="input">Input</a>
+    <a href="#" data-section="results">Results</a>
+  </nav>
+  <main>
+    <section id="dashboard" class="active">
+      <h1>Welcome!</h1>
+      <p>Greetings, user! Track your carbon footprint to help save the planet.</p>
+      <h2>Why This Project Matters</h2>
+      <p>Understanding your carbon emissions is the first step toward reducing them.</p>
+      <h2>FAQ</h2>
+      <dl class="faq">
+        <dt>What is a carbon footprint?</dt>
+        <dd>The total greenhouse gases you emit, measured in tonnes CO<sub>2</sub>e.</dd>
+        <dt>How accurate are these calculations?</dt>
+        <dd>This is an estimate. Real values depend on many factors.</dd>
+      </dl>
+      <div>Mood: <span class="mood" id="mood">🙂</span></div>
+    </section>
+    <section id="input">
+      <h2>Enter Your Data</h2>
+      <form id="data-form">
+        <div><label>Transportation (km per week)</label>
+          <input type="number" id="transportation" value="0" min="0">
+          <select id="transport-mode">
+            <option value="car">Car</option>
+            <option value="bus">Bus</option>
+            <option value="train">Train</option>
+            <option value="flight">Flight</option>
+          </select>
+        </div>
+        <div><label>Electricity (kWh per month)</label>
+          <input type="number" id="electricity" value="0" min="0">
+        </div>
+        <div><label>Gas (therms per month)</label>
+          <input type="number" id="gas" value="0" min="0">
+        </div>
+        <div><label>Heating Oil (liters per month)</label>
+          <input type="number" id="heating" value="0" min="0">
+        </div>
+        <div><label>Food Habits</label>
+          <select id="food">
+            <option value="meat">Meat</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+          </select>
+        </div>
+        <div><label>Shopping/Digital (optional, $ per month)</label>
+          <input type="number" id="shopping" value="0" min="0">
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+    </section>
+    <section id="results">
+      <h2>Inputs Results</h2>
+      <p>Total Emissions: <span id="total">0</span> tonnes CO<sub>2</sub>e/year</p>
+      <h3>Recommendations</h3>
+      <ul id="recommendations"></ul>
+      <h3>Comparisons</h3>
+      <ul id="comparisons"></ul>
+    </section>
+  </main>
+  <script>
+    const sections = document.querySelectorAll('section');
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        sections.forEach(s=> s.classList.remove('active'));
+        document.querySelector(`#${link.dataset.section}`).classList.add('active');
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+    document.getElementById('data-form').addEventListener('submit', e => {
+      e.preventDefault();
+      // Gather inputs
+      const km = parseFloat(document.getElementById('transportation').value);
+      const mode = document.getElementById('transport-mode').value;
+      const elec = parseFloat(document.getElementById('electricity').value);
+      const gas = parseFloat(document.getElementById('gas').value);
+      const heating = parseFloat(document.getElementById('heating').value);
+      const food = document.getElementById('food').value;
+      const shop = parseFloat(document.getElementById('shopping').value);
+      // Emission factors
+      const factors = {
+        car: 0.12, bus: 0.08, train: 0.045, flight: 0.285,
+        electricity: 0.233, gas: 2.21, heating: 2.68,
+        food: { meat: 2.5, vegetarian: 1.0, vegan: 0.5 },
+        shopping: 0.0003
+      };
+      // Calculate annual emissions (simplified)
+      const transEm = km * factors[mode] * 52;
+      const elecEm = elec * factors.electricity * 12;
+      const gasEm = gas * factors.gas * 12;
+      const heatEm = heating * factors.heating * 12;
+      const foodEm = factors.food[food] * 365;
+      const shopEm = shop * factors.shopping * 12;
+      const total = ((transEm + elecEm + gasEm + heatEm + foodEm + shopEm)/1000).toFixed(2);
+      document.getElementById('total').innerText = total;
+      // Recommendations
+      const rec = [];
+      if(mode==='car') rec.push('Try using public transport or carpool.');
+      if(elec>0) rec.push('Consider installing LED bulbs and energy-efficient appliances.');
+      if(food==='meat') rec.push('Reduce meat consumption and try meat-free days.');
+      if(shop>0) rec.push('Buy only what you need and support sustainable brands.');
+      document.getElementById('recommendations').innerHTML = rec.map(r=>`<li>${r}</li>`).join('');
+      // Comparisons
+      const comp = [];
+      comp.push(`Your footprint equals driving a car for ${(total*1000/120).toFixed(0)} km.`);
+      comp.push(`Equivalent to ${(total*1000/7).toFixed(0)} smartphone charges.`);
+      document.getElementById('comparisons').innerHTML = comp.map(c=>`<li>${c}</li>`).join('');
+      // Update mood
+      const moodEl = document.getElementById('mood');
+      const t = parseFloat(total);
+      moodEl.innerText = t < 5 ? '😊' : t < 15 ? '😐' : '😟';
+      // Show results
+      document.querySelector('nav a[data-section="results"]').click();
+    });
+  </script>
+</body>
+</html>
