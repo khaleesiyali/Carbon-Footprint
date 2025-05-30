@@ -1,5 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from rest_framework.viewsets import ModelViewSet
+from .models import Appliance, UsageRecord
+from .serializers import ApplianceSerializer, UsageRecordSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 def guest_view(request):
@@ -21,3 +26,18 @@ def advice_view(request):
         {"id": 3, "tip": "Take public transportation"},
         ]
     return JsonResponse(tips, safe=False)
+
+class ApplianceViewSet(ModelViewSet):
+    queryset = Appliance.objects.all()
+    serializer_class = ApplianceSerializer
+
+
+class UsageRecordViewSet(ModelViewSet):
+    queryset = UsageRecord.objects.all()
+    serializer_class = UsageRecordSerializer
+
+@api_view(['GET'])
+def guest_energy_summary(request, guest_id):
+    records = UsageRecord.objects.filter(guest_id=guest_id)
+    total_joules = sum(record.energy_per_year_joules() for record in records)
+    return Response({"guest_id": guest_id, "total_energy_joules": total_joules})
