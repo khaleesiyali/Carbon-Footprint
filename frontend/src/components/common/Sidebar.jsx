@@ -76,6 +76,8 @@ function Sidebar() {
     <>
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
+
+{/*
           <li className="nav-item nav-profile">
             <a
               href="!#"
@@ -84,7 +86,7 @@ function Sidebar() {
               <div className="nav-profile-image">
                 <img src="/images/faces/face1.jpg" alt="profile" />
                 <span className="login-status online"></span>{" "}
-                {/* \change to offline or busy as needed */}
+                
               </div>
               <div className="nav-profile-text">
                 <span className="fw-bold mb-2">David Grey. H</span>
@@ -95,6 +97,8 @@ function Sidebar() {
               <i className="fa fa-soild fa-bookmark text-success nav-profile-badge"></i>
             </a>
           </li>
+
+*/}
           <li
             className={
               isPathActive("/dashboard") ? "nav-item active" : "nav-item"
@@ -757,7 +761,7 @@ function Sidebar() {
               to="/code-editor"
               onClick={() => dispatch({ type: "toggle", menu: "common" })}>
               <span className="menu-title">Results</span>
-              <i className="fa fa-soild fa-code menu-icon"></i>
+              <i className="fa fa-solid fa-chart-line menu-icon"></i>
             </Link>
           </li>
 

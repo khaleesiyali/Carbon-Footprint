@@ -34,6 +34,8 @@ function Navbar() {
             <button className="navbar-toggler navbar-toggler align-self-center" type="button" onClick={() => document.body.classList.toggle('sidebar-icon-only')}>
                 <span className="fa fa-solid fa-bars"></span>
             </button>
+
+{/*
             <div className="search-field d-none d-md-block">
                 <form className="d-flex align-items-center h-100" action="#">
                     <div className="input-group mt-2">
@@ -44,6 +46,8 @@ function Navbar() {
                     </div>
                 </form>
             </div>
+
+            
             <ul className="navbar-nav navbar-nav-right">
                 <li className="nav-item nav-profile">
                     <Dropdown align="end">
@@ -173,6 +177,10 @@ function Navbar() {
                     </button>
                 </li>
             </ul>
+*/}
+
+
+
             <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" onClick={toggleOffCanvas}>
                 <span className="fa fa-solid fa-bars"></span>
             </button>
