@@ -107,7 +107,10 @@ function Sidebar() {
               <i className="fa fa-solid fa-house menu-icon"></i>
             </Link>
           </li>
-          <li className={isPathActive("/rtl") ? "nav-item active" : "nav-item"}>
+
+
+
+         {/* <li className={isPathActive("/rtl") ? "nav-item active" : "nav-item"}>
             <Link
               className="nav-link"
               to="/rtl"
@@ -115,7 +118,9 @@ function Sidebar() {
               <span className="menu-title">RTL</span>
               <i className="fa fa-solid fa-language menu-icon"></i>
             </Link>
-          </li>
+          </li> 
+
+
           <li
             className={isPathActive("/apps") ? "nav-item active" : "nav-item"}>
             <div
@@ -210,6 +215,8 @@ function Sidebar() {
               </ul>
             </Collapse>
           </li>
+
+
           <li
             className={
               isPathActive("/widgets") ? "nav-item active" : "nav-item"
@@ -222,6 +229,8 @@ function Sidebar() {
               <i className="fa fa-solid fa-puzzle-piece menu-icon"></i>
             </Link>
           </li>
+
+
           <li
             className={
               isPathActive("/basic-ui") ? "nav-item active" : "nav-item"
@@ -373,6 +382,8 @@ function Sidebar() {
               </ul>
             </Collapse>
           </li>
+
+
           <li
             className={
               isPathActive("/advanced-ui") ? "nav-item active" : "nav-item"
@@ -468,7 +479,8 @@ function Sidebar() {
                 </li>
               </ul>
             </Collapse>
-          </li>
+          </li> */}
+          
           <li
             className={
               isPathActive("/form-elements") ? "nav-item active" : "nav-item"
@@ -479,7 +491,7 @@ function Sidebar() {
               }`}
               onClick={() => dispatch({ type: "toggle", menu: "drop4" })}
               aria-expanded={state.drop4}>
-              <span className="menu-title">Form Elements</span>
+              <span className="menu-title">Input</span>
               <i className="menu-arrow"></i>
               <i className="fa fa-solid fa-file-lines menu-icon"></i>
             </div>
@@ -532,6 +544,8 @@ function Sidebar() {
               </ul>
             </Collapse>
           </li>
+
+          {/*
           <li
             className={
               isPathActive("/tables") ? "nav-item active" : "nav-item"
@@ -729,7 +743,11 @@ function Sidebar() {
               <span className="menu-title">Text Editor</span>
               <i className="fa fa-solid fa-pen-to-square menu-icon"></i>
             </Link>
-          </li>
+          </li>  */}
+
+
+
+
           <li
             className={
               isPathActive("/code-editor") ? "nav-item active" : "nav-item"
@@ -738,10 +756,15 @@ function Sidebar() {
               className="nav-link"
               to="/code-editor"
               onClick={() => dispatch({ type: "toggle", menu: "common" })}>
-              <span className="menu-title">Code Editor</span>
+              <span className="menu-title">Results</span>
               <i className="fa fa-soild fa-code menu-icon"></i>
             </Link>
           </li>
+
+          
+
+
+          {/*
           <li
             className={
               isPathActive("/charts") ? "nav-item active" : "nav-item"
@@ -832,7 +855,8 @@ function Sidebar() {
             </div>
             <Collapse in={state.drop11}>
               <ul className="nav flex-column sub-menu">
-                {/* <li className="nav-item">
+                {/* 
+                <li className="nav-item">
                   <Link
                     className={
                       isPathActive("/general-pages/blank-page")
@@ -842,7 +866,8 @@ function Sidebar() {
                     to="/general-pages/blank-page">
                     Blank Page
                   </Link>
-                </li> */}
+                </li>
+                
                 <li className="nav-item">
                   <Link
                     className={
@@ -1146,6 +1171,8 @@ function Sidebar() {
               <i className="fa-solid fa-book menu-icon"></i>
             </Link>
           </li>
+*/}
+
         </ul>
       </nav>
     </>
