@@ -1,0 +1,15 @@
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+'use strict';var c=require("@lexical/react/LexicalComposerContext"),q=require("@lexical/table"),r=require("@lexical/utils"),t=require("lexical"),u=require("react"),v;function y(l){let m=new URLSearchParams;m.append("code",l);for(let n=1;n<arguments.length;n++)m.append("v",arguments[n]);throw Error(`Minified Lexical error #${l}; visit https://lexical.dev/docs/error?${m} for the full message or `+"use the non-minified dev environment for full errors and additional helpful warnings.");}
+v=y&&y.__esModule&&Object.prototype.hasOwnProperty.call(y,"default")?y["default"]:y;
+exports.TablePlugin=function({hasCellMerge:l=!0,hasCellBackgroundColor:m=!0,hasTabHandler:n=!0}){let [g]=c.useLexicalComposerContext();u.useEffect(()=>{g.hasNodes([q.TableNode,q.TableCellNode,q.TableRowNode])||v(10);return r.mergeRegister(g.registerCommand(q.INSERT_TABLE_COMMAND,({columns:a,rows:e,includeHeaders:f})=>{a=q.$createTableNodeWithDimensions(Number(e),Number(a),f);r.$insertNodeToNearestRoot(a);a=a.getFirstDescendant();t.$isTextNode(a)&&a.select();return!0},t.COMMAND_PRIORITY_EDITOR),g.registerNodeTransform(q.TableNode,
+a=>{[a]=q.$computeTableMapSkipCellCheck(a,null,null);let e=a.reduce((b,d)=>Math.max(b,d.length),0);for(let b=0;b<a.length;++b){var f=a[b].length;if(f===e)continue;let d=a[b][f-1].cell;for(;f<e;++f){let h=q.$createTableCellNode(0);h.append(t.$createParagraphNode());null!==d?d.insertAfter(h):r.$insertFirst(d,h)}}}))},[g]);u.useEffect(()=>{let a=new Map,e=b=>{const d=b.getKey(),h=g.getElementByKey(d);h&&!a.has(d)&&(b=q.applyTableHandlers(b,h,g,n),a.set(d,b))};g.getEditorState().read(()=>{let b=t.$nodesOfType(q.TableNode);
+for(let d of b)q.$isTableNode(d)&&e(d)});let f=g.registerMutationListener(q.TableNode,b=>{for(const [d,h]of b)"created"===h?g.getEditorState().read(()=>{const k=t.$getNodeByKey(d);q.$isTableNode(k)&&e(k)}):"destroyed"===h&&(b=a.get(d),void 0!==b&&(b.removeListeners(),a.delete(d)))});return()=>{f();for(let [,b]of a)b.removeListeners()}},[g,n]);u.useEffect(()=>{if(!l)return g.registerNodeTransform(q.TableCellNode,a=>{if(1<a.getColSpan()||1<a.getRowSpan()){var [,,e]=q.$getNodeTriplet(a);[a]=q.$computeTableMap(e,
+a,a);let b=a.length,d=a[0].length;e=e.getFirstChild();q.$isTableRowNode(e)||v(175);let h=[];for(let k=0;k<b;k++){0!==k&&(e=e.getNextSibling(),q.$isTableRowNode(e)||v(175));let x=null;for(let w=0;w<d;w++){var f=a[k][w];let p=f.cell;if(f.startRow===k&&f.startColumn===w)x=p,h.push(p);else if(1<p.getColSpan()||1<p.getRowSpan())q.$isTableCellNode(p)||v(176),f=q.$createTableCellNode(p.__headerState),null!==x?x.insertAfter(f):r.$insertFirst(e,f)}}for(let k of h)k.setColSpan(1),k.setRowSpan(1)}})},[g,l]);
+u.useEffect(()=>{if(!m)return g.registerNodeTransform(q.TableCellNode,a=>{null!==a.getBackgroundColor()&&a.setBackgroundColor(null)})},[g,m,l]);return null}
