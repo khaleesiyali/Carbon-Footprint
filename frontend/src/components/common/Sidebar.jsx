@@ -501,6 +501,18 @@ function Sidebar() {
             </div>
             <Collapse in={state.drop4}>
               <ul className="nav flex-column sub-menu">
+                 <li className="nav-item">
+                  <Link
+                    className={
+                      isPathActive("/form-elements/advanced-elements")
+                        ? "nav-link active"
+                        : "nav-link"
+                    }
+                    to="/form-elements/advanced-elements">
+                    Travel 
+                  </Link>
+                </li>
+
                 <li className="nav-item">
                   <Link
                     className={
@@ -509,20 +521,10 @@ function Sidebar() {
                         : "nav-link"
                     }
                     to="/form-elements/basic-elements">
-                    Basic Elements
+                    Electricity 
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link
-                    className={
-                      isPathActive("/form-elements/advanced-elements")
-                        ? "nav-link active"
-                        : "nav-link"
-                    }
-                    to="/form-elements/advanced-elements">
-                    Travel Inputs
-                  </Link>
-                </li>
+               
                 <li className="nav-item">
                   <Link
                     className={
