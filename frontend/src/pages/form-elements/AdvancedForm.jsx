@@ -10,13 +10,9 @@ import FormRepeater from '../../components/forms/FormRepeater';
 import TagsInput from '../../components/forms/TagsInput';
 import Select from 'react-select'
 import { Typeahead } from 'react-bootstrap-typeahead'; 
-
-
 import { useState } from 'react';
 
-// ...existing imports...
-
-function WeeklyTravelForm() {
+function WeeklyTravelForm({ onSubmit }) {
   const [carDays, setCarDays] = useState(0);
   const [busDays, setBusDays] = useState(0);
   const [trainDays, setTrainDays] = useState(0);
@@ -26,10 +22,25 @@ function WeeklyTravelForm() {
   const [busMinutes, setBusMinutes] = useState(30);
   const [trainMinutes, setTrainMinutes] = useState(30);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSubmit) {
+      onSubmit({
+        carDays,
+        busDays,
+        trainDays,
+        flightTrips,
+        carMinutes,
+        busMinutes,
+        trainMinutes,
+      });
+    }
+  };
+
   return (
-    <div className="card mb-4">
+    <form className="card mb-4" onSubmit={handleSubmit}>
       <div className="card-body">
-        <h4 className="card-title">Weekly Travel Check-In</h4>
+        <h1 className="card-title">Weekly Travel Check-In</h1>
         <div className="mb-3">
           <label className="form-label">🚗 Days you used a car:</label>
           <input
@@ -75,7 +86,7 @@ function WeeklyTravelForm() {
           />
         </div>
         <hr />
-        <h5 className="mb-3">Roughly how many minutes per day for each mode?</h5>
+        <h2 className="mb-3">Roughly how many minutes per day for each mode?</h2>
         <div className="mb-3">
           <label className="form-label">🚗 Car trip length: {carMinutes} min</label>
           <input
@@ -112,16 +123,16 @@ function WeeklyTravelForm() {
             onChange={e => setTrainMinutes(Number(e.target.value))}
           />
         </div>
+        <button type="submit" className="btn btn-primary mt-3">Submit</button>
       </div>
-    </div>
+    </form>
   );
 }
 
 
 function AdvancedForm() {
 
-    
-    
+   
 
   const barEmptyStyle = {
     display: 'inline-block',
@@ -140,14 +151,50 @@ function AdvancedForm() {
     margin: '1px'
 }
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleTravelSubmit = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => setShowModal(false);
+
   return (
     <div>
+      <WeeklyTravelForm onSubmit={handleTravelSubmit} />
 
-    <div>
-      <WeeklyTravelForm />
+      {/* Simple Modal */}
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: "rgba(0,0,0,0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999
+          }}
+        >
+          <div style={{
+            background: "#fff",
+            padding: "2rem 3rem",
+            borderRadius: "8px",
+            boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+            textAlign: "center",
+            color: "#222", // <-- Ensure text is visible on white background
+            minWidth: "250px"
+          }}>
+            <h4 style={{color: "#222"}}>Data has been recorded</h4>
+            <button className="btn btn-success mt-3" onClick={closeModal}>OK</button>
+          </div>
+        </div>
+      )}
       
+  {/*
     </div>
-  
+
+   
   
       <div className="row">
         <div className="col-md-4 grid-margin stretch-card">
@@ -428,8 +475,14 @@ function AdvancedForm() {
             </div>
         </div>
       </div>
+      */}
     </div>
+
+    
   )
+
+  
 }
+
 
 export default AdvancedForm

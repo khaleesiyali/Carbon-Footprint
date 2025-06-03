@@ -520,7 +520,7 @@ function Sidebar() {
                         : "nav-link"
                     }
                     to="/form-elements/advanced-elements">
-                    Advanced Elements
+                    Travel Inputs
                   </Link>
                 </li>
                 <li className="nav-item">
