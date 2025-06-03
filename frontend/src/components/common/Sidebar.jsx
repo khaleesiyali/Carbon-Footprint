@@ -495,7 +495,7 @@ function Sidebar() {
               }`}
               onClick={() => dispatch({ type: "toggle", menu: "drop4" })}
               aria-expanded={state.drop4}>
-              <span className="menu-title">Input</span>
+              <span className="menu-title">Weekly Input</span>
               <i className="menu-arrow"></i>
               <i className="fa fa-solid fa-file-lines menu-icon"></i>
             </div>

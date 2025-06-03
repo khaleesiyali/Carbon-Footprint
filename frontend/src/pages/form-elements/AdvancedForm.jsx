@@ -11,7 +11,117 @@ import TagsInput from '../../components/forms/TagsInput';
 import Select from 'react-select'
 import { Typeahead } from 'react-bootstrap-typeahead'; 
 
+
+import { useState } from 'react';
+
+// ...existing imports...
+
+function WeeklyTravelForm() {
+  const [carDays, setCarDays] = useState(0);
+  const [busDays, setBusDays] = useState(0);
+  const [trainDays, setTrainDays] = useState(0);
+  const [flightTrips, setFlightTrips] = useState(0);
+
+  const [carMinutes, setCarMinutes] = useState(30);
+  const [busMinutes, setBusMinutes] = useState(30);
+  const [trainMinutes, setTrainMinutes] = useState(30);
+
+  return (
+    <div className="card mb-4">
+      <div className="card-body">
+        <h4 className="card-title">Weekly Travel Check-In</h4>
+        <div className="mb-3">
+          <label className="form-label">🚗 Days you used a car:</label>
+          <input
+            type="number"
+            min={0}
+            max={7}
+            className="form-control"
+            value={carDays}
+            onChange={e => setCarDays(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">🚌 Days you rode the bus:</label>
+          <input
+            type="number"
+            min={0}
+            max={7}
+            className="form-control"
+            value={busDays}
+            onChange={e => setBusDays(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">🚆 Days you took the train:</label>
+          <input
+            type="number"
+            min={0}
+            max={7}
+            className="form-control"
+            value={trainDays}
+            onChange={e => setTrainDays(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">✈️ How many flights this week:</label>
+          <input
+            type="number"
+            min={0}
+            max={5}
+            className="form-control"
+            value={flightTrips}
+            onChange={e => setFlightTrips(Number(e.target.value))}
+          />
+        </div>
+        <hr />
+        <h5 className="mb-3">Roughly how many minutes per day for each mode?</h5>
+        <div className="mb-3">
+          <label className="form-label">🚗 Car trip length: {carMinutes} min</label>
+          <input
+            type="range"
+            min={0}
+            max={180}
+            step={15}
+            className="form-range"
+            value={carMinutes}
+            onChange={e => setCarMinutes(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">🚌 Bus trip length: {busMinutes} min</label>
+          <input
+            type="range"
+            min={0}
+            max={180}
+            step={15}
+            className="form-range"
+            value={busMinutes}
+            onChange={e => setBusMinutes(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">🚆 Train trip length: {trainMinutes} min</label>
+          <input
+            type="range"
+            min={0}
+            max={180}
+            step={15}
+            className="form-range"
+            value={trainMinutes}
+            onChange={e => setTrainMinutes(Number(e.target.value))}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 function AdvancedForm() {
+
+    
+    
 
   const barEmptyStyle = {
     display: 'inline-block',
@@ -32,6 +142,13 @@ function AdvancedForm() {
 
   return (
     <div>
+
+    <div>
+      <WeeklyTravelForm />
+      
+    </div>
+  
+  
       <div className="row">
         <div className="col-md-4 grid-margin stretch-card">
           <div className="card">

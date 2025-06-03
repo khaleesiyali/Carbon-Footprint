@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Co2Check</title>
+
+  <style>
+    /* ─────────────── Global Reset & Base ─────────────── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      background: #f4f4f4;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background: #1abc9c;
+      color: white;
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      margin-top: 1em;
+    }
+
+    button:hover {
+      background: #16a085;
+    }
+
+    /* ─────────────── Layout ─────────────── */
+    header {
+      background: #2c3e50;
+      padding: 1em 2em;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.5em;
+    }
+
+    nav a {
+      margin-left: 1em;
+      padding: 0.4em 0.8em;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: #16a085;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2em auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    section {
+      display: none;
+      padding: 2em;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    h2 {
+      margin-bottom: 0.5em;
+      color: #2c3e50;
+    }
+
+    p {
+      margin-bottom: 1em;
+    }
+
+    .card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1.5em;
+      margin-bottom: 1.5em;
+    }
+
+    .step-indicator {
+      margin-bottom: 1em;
+      font-weight: bold;
+      color: #555;
+    }
+
+    /* ─────────────── FAQ ─────────────── */
+    .faq dt {
+      font-weight: bold;
+      margin-top: 1em;
+    }
+
+    .faq dd {
+      margin-left: 1em;
+      margin-bottom: 1em;
+    }
+
+    /* ─────────────── Wizard Step Styles ─────────────── */
+    .wizard-step {
+      margin-top: 1em;
+    }
+
+    .wizard-step label {
+      display: block;
+      margin-bottom: 0.6em;
+    }
+
+    .wizard-step input[type="number"],
+    .wizard-step input[type="range"] {
+      width: 100%;
+      margin-top: 0.3em;
+    }
+
+    .wizard-step input[type="range"] + span {
+      display: inline-block;
+      margin-left: 0.5em;
+      font-weight: bold;
+    }
+
+    .food-icons {
+      display: flex;
+      gap: 1em;
+      margin-top: 0.5em;
+    }
+
+    .food-icons span {
+      font-size: 2.5em;
+      cursor: pointer;
+      transition: transform 0.1s, border 0.1s;
+      padding: 0.3em;
+      border-radius: 6px;
+    }
+
+    .food-icons span:hover {
+      transform: scale(1.1);
+    }
+
+    .food-icons span.selected {
+      border: 2px solid #1abc9c;
+    }
+
+    .summary-item {
+      margin-bottom: 0.8em;
+    }
+
+    /* ─────────────── Results Styling ─────────────── */
+    #petAvatar {
+      font-size: 3em;
+      margin: 1em 0;
+    }
+
+    ul {
+      list-style: disc inside;
+      margin-left: 1em;
+      margin-bottom: 1em;
+    }
+
+    /* ─────────────── Responsive ─────────────── */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 0.5em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ─────────────── Header & Navbar ─────────────── -->
+  <header>
+    <h1>🌍 Co2Check</h1>
+    <nav>
+      <a href="#" data-section="dashboard" class="active">Dashboard</a>
+      <a href="#" data-section="step1">Weekly Check-In</a>
+      <a href="#" data-section="results">Results</a>
+    </nav>
+  </header>
+
+  <!-- ─────────────── Main Content Area ─────────────── -->
+  <main>
+    <!-- ─────────────── 1. Dashboard ─────────────── -->
+    <section id="dashboard" class="active">
+      <h2>Welcome to Your Carbon Check-In</h2>
+      <p>Greetings! Each week, you’ll log a few quick details about your travel, home energy, meals, and shopping. In return, you’ll see your estimated carbon footprint and fun recommendations on how to reduce it.</p>
+
+      <div class="card">
+        <h3>Why This Project Matters</h3>
+        <p>Keeping track of your carbon footprint helps you make small changes that add up. Seeing your “carbon score” every week lets you build greener habits over time—like taking more public transport or eating one more plant-based meal.</p>
+      </div>
+
+      <div class="card">
+        <h3>FAQ</h3>
+        <dl class="faq">
+          <dt>What is a carbon footprint?</dt>
+          <dd>The total greenhouse gases you emit, measured in tonnes of CO₂ equivalent.</dd>
+
+          <dt>How accurate are these numbers?</dt>
+          <dd>We use standard emission factors to estimate—your true footprint may vary, but this gives a good relative gauge.</dd>
+
+          <dt>How often should I check in?</dt>
+          <dd>Once per week is ideal—any less and patterns may be hard to spot, any more may feel tedious.</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h3>Your Carbon Pet</h3>
+        <p>This little friend’s mood will change based on your weekly emissions:</p>
+        <div id="petAvatar">🐱</div>
+        <p>(Low footprint = 😊, Moderate = 😐, High = 😟)</p>
+      </div>
+
+      <button id="startBtn">Start Weekly Check-In ▶︎</button>
+    </section>
+
+    <!-- ─────────────── 2. Step 1: Transportation ─────────────── -->
+    <section id="step1">
+      <div class="step-indicator">Step 1 of 4: Travel 🚗🚌🚆✈️</div>
+      <div class="card wizard-step">
+        <h3>How often did you travel this week?</h3>
+        <label>🚗 Days you used a car:
+          <input type="number" id="carDays" min="0" max="7" value="0" />
+        </label>
+        <label>🚌 Days you rode the bus:
+          <input type="number" id="busDays" min="0" max="7" value="0" />
+        </label>
+        <label>🚆 Days you took the train:
+          <input type="number" id="trainDays" min="0" max="7" value="0" />
+        </label>
+        <label>✈️ How many flights this week:
+          <input type="number" id="flightTrips" min="0" max="5" value="0" />
+        </label>
+
+        <h3>Roughly how many minutes per day for each mode?</h3>
+        <label>🚗 Car trip length:
+          <input type="range" id="carMinutes" min="0" max="180" step="15" value="30" />
+          <span id="carMinutesLabel">30&nbsp;min</span>
+        </label>
+        <label>🚌 Bus trip length:
+          <input type="range" id="busMinutes" min="0" max="180" step="15" value="30" />
+          <span id="busMinutesLabel">30&nbsp;min</span>
+        </label>
+        <label>🚆 Train trip length:
+          <input type="range" id="trainMinutes" min="0" max="180" step="15" value="30" />
+          <span id="trainMinutesLabel">30&nbsp;min</span>
+        </label>
+
+        <button class="next-btn" data-next="step2">Next ▶︎</button>
+      </div>
+    </section>
+
+    <!-- ─────────────── 3. Step 2: Home Energy ─────────────── -->
+    <section id="step2">
+      <div class="step-indicator">Step 2 of 4: Home Energy 🏠</div>
+      <div class="card wizard-step">
+        <h3>Enter your home energy for the week</h3>
+        <details>
+          <summary>🔌 Edit Home Energy (click to expand)</summary>
+          <div style="margin-top: 1em;">
+            <label>Electricity (kWh this week):
+              <input type="range" id="electricity" min="0" max="500" step="10" value="0" />
+              <span id="elecLabel">0&nbsp;kWh</span>
+            </label>
+            <label style="margin-top: 0.8em;">Gas (therms this week):
+              <input type="range" id="gas" min="0" max="50" step="1" value="0" />
+              <span id="gasLabel">0&nbsp;therms</span>
+            </label>
+            <label style="margin-top: 0.8em;">Heating Oil (liters this week):
+              <input type="range" id="heatingOil" min="0" max="200" step="5" value="0" />
+              <span id="heatLabel">0&nbsp;L</span>
+            </label>
+          </div>
+        </details>
+
+        <button class="back-btn" data-prev="step1">◀ Back</button>
+        <button class="next-btn" data-next="step3">Next ▶︎</button>
+      </div>
+    </section>
+
+    <!-- ─────────────── 4. Step 3: Meals & Shopping ─────────────── -->
+    <section id="step3">
+      <div class="step-indicator">Step 3 of 4: Meals & Shopping 🍽🛍️</div>
+      <div class="card wizard-step">
+        <h3>Select the icon that best matches your meals this week:</h3>
+        <div class="food-icons">
+          <span data-food="meat" class="foodIcon">🍖</span>
+          <span data-food="vegetarian" class="foodIcon">🥗</span>
+          <span data-food="vegan" class="foodIcon">🥕</span>
+        </div>
+
+        <h3 style="margin-top: 1.2em;">How many online purchases did you make?</h3>
+        <label>📦 Online purchases:
+          <input type="number" id="onlinePurchases" min="0" max="20" value="0" />
+        </label>
+
+        <button class="back-btn" data-prev="step2">◀ Back</button>
+        <button class="next-btn" data-next="step4">Next ▶︎</button>
+      </div>
+    </section>
+
+    <!-- ─────────────── 5. Step 4: Review & Calculate ─────────────── -->
+    <section id="step4">
+      <div class="step-indicator">Step 4 of 4: Review & Calculate ✔️</div>
+      <div class="card wizard-step">
+        <h3>Review Your Entries</h3>
+        <div id="summary">
+          <!-- Populated by JavaScript -->
+        </div>
+        <button class="back-btn" data-prev="step3">◀ Back</button>
+        <button id="calculateBtn">Calculate Emissions</button>
+      </div>
+    </section>
+
+    <!-- ─────────────── 6. Results Screen ─────────────── -->
+    <section id="results">
+      <div class="card">
+        <h2>🌱 Your Carbon Results</h2>
+        <p>Total Emissions: <strong id="totalEmission">0.00</strong> tonnes CO₂e</p>
+        <div id="petAvatar">🐱</div>
+
+        <h3>Recommendations</h3>
+        <ul id="recList"></ul>
+
+        <h3>Comparisons</h3>
+        <ul id="compList"></ul>
+
+        <button id="resetBtn">🏁 Start Next Week</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─────────────── JavaScript ─────────────── -->
+  <script>
+    // ─────────────── Utility: Show/Hide Sections ───────────────
+    const sections = document.querySelectorAll("main section");
+    function showSection(id) {
+      sections.forEach((sec) => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+
+      // Update navbar highlighting
+      document.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("active", link.dataset.section === id);
+      });
+    }
+
+    // Navbar clicks
+    document.querySelectorAll('nav a').forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        showSection(link.dataset.section);
+      });
+    });
+
+    // "Start Weekly Check-In" button
+    document.getElementById("startBtn").addEventListener("click", () => {
+      showSection("step1");
+    });
+
+    // Next/Back button logic
+    document.querySelectorAll(".next-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const nextId = btn.dataset.next;
+        showSection(nextId);
+      });
+    });
+    document.querySelectorAll(".back-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const prevId = btn.dataset.prev;
+        showSection(prevId);
+      });
+    });
+
+    // ─────────────── Step 1: Sliders & Labels ───────────────
+    function setupRange(id, labelId, unit) {
+      const inp = document.getElementById(id);
+      const lbl = document.getElementById(labelId);
+      inp.addEventListener("input", (e) => {
+        lbl.innerText = e.target.value + " " + unit;
+      });
+    }
+    setupRange("carMinutes", "carMinutesLabel", "min");
+    setupRange("busMinutes", "busMinutesLabel", "min");
+    setupRange("trainMinutes", "trainMinutesLabel", "min");
+    setupRange("electricity", "elecLabel", "kWh");
+    setupRange("gas", "gasLabel", "therms");
+    setupRange("heatingOil", "heatLabel", "L");
+
+    // ─────────────── Step 3: Meal Icons ───────────────
+    let chosenFood = "meat"; // default
+    document.querySelectorAll(".foodIcon").forEach((icon) => {
+      icon.addEventListener("click", () => {
+        document.querySelectorAll(".foodIcon").forEach((i) =>
+          i.classList.remove("selected")
+        );
+        icon.classList.add("selected");
+        chosenFood = icon.dataset.food;
+      });
+    });
+    // Initialize default selection
+    document.querySelector('.foodIcon[data-food="meat"]').classList.add("selected");
+
+    // ─────────────── Step 4: Build Summary ───────────────
+    function buildSummary() {
+      const cDays = Number(document.getElementById("carDays").value);
+      const bDays = Number(document.getElementById("busDays").value);
+      const tDays = Number(document.getElementById("trainDays").value);
+      const fTrips = Number(document.getElementById("flightTrips").value);
+      const cMin = Number(document.getElementById("carMinutes").value);
+      const bMin = Number(document.getElementById("busMinutes").value);
+      const tMin = Number(document.getElementById("trainMinutes").value);
+
+      const elec = Number(document.getElementById("electricity").value);
+      const gas = Number(document.getElementById("gas").value);
+      const oil = Number(document.getElementById("heatingOil").value);
+
+      const shop = Number(document.getElementById("onlinePurchases").value);
+
+      const summaryDiv = document.getElementById("summary");
+      summaryDiv.innerHTML = `
+        <div class="summary-item"><strong>Travel:</strong>
+          Car: ${cDays} day(s), ${cMin} min/day<br>
+          Bus: ${bDays} day(s), ${bMin} min/day<br>
+          Train: ${tDays} day(s), ${tMin} min/day<br>
+          Flights: ${fTrips} trip(s)
+        </div>
+        <div class="summary-item"><strong>Home Energy:</strong>
+          Electricity: ${elec} kWh · Gas: ${gas} therms · Heating Oil: ${oil} L
+        </div>
+        <div class="summary-item"><strong>Meals:</strong> ${chosenFood.charAt(0).toUpperCase() + chosenFood.slice(1)}</div>
+        <div class="summary-item"><strong>Online Purchases:</strong> ${shop} item(s)</div>
+      `;
+    }
+
+    document.querySelector('[data-next="step4"]').addEventListener("click", buildSummary);
+
+    // ─────────────── Calculate & Show Results ───────────────
+    document.getElementById("calculateBtn").addEventListener("click", () => {
+      // Gather inputs
+      const cDays = Number(document.getElementById("carDays").value);
+      const bDays = Number(document.getElementById("busDays").value);
+      const tDays = Number(document.getElementById("trainDays").value);
+      const fTrips = Number(document.getElementById("flightTrips").value);
+      const cMin = Number(document.getElementById("carMinutes").value);
+      const bMin = Number(document.getElementById("busMinutes").value);
+      const tMin = Number(document.getElementById("trainMinutes").value);
+
+      const elec = Number(document.getElementById("electricity").value);
+      const gas = Number(document.getElementById("gas").value);
+      const oil = Number(document.getElementById("heatingOil").value);
+
+      const shop = Number(document.getElementById("onlinePurchases").value);
+
+      // Emission factors & speeds
+      const speeds = { car: 50, bus: 40, train: 60, flight: 800 };
+      const factors = {
+        car: 0.12,
+        bus: 0.08,
+        train: 0.045,
+        flight: 0.285,
+        electricity: 0.233,
+        gas: 2.21,
+        heating: 2.68,
+        food: { meat: 2.5, vegetarian: 1.0, vegan: 0.5 },
+        shopping: 0.5, // 0.5 kg CO₂e per item
+      };
+
+      // Transport emissions (kg CO₂e)
+      const carKm = (cMin / 60) * speeds.car * cDays;
+      const busKm = (bMin / 60) * speeds.bus * bDays;
+      const trainKm = (tMin / 60) * speeds.train * tDays;
+      const flightKm = fTrips * speeds.flight;
+      const transEm = carKm * factors.car + busKm * factors.bus + trainKm * factors.train + flightKm * factors.flight;
+
+      // Home energy emissions (kg CO₂e)
+      const elecEm = elec * factors.electricity;
+      const gasEm = gas * factors.gas;
+      const oilEm = oil * factors.heating;
+
+      // Food emissions (kg CO₂e per week)
+      const foodEm = factors.food[chosenFood] * 7;
+
+      // Shopping emissions (kg CO₂e)
+      const shopEm = shop * factors.shopping;
+
+      // Total in tonnes CO₂e
+      let totalEm = (transEm + elecEm + gasEm + oilEm + foodEm + shopEm) / 1000;
+      totalEm = totalEm.toFixed(2);
+
+      // Display total
+      document.getElementById("totalEmission").innerText = totalEm;
+
+      // Pet Emoji Mood
+      const petEl = document.getElementById("petAvatar");
+      if (totalEm < 5) petEl.innerText = "😊";
+      else if (totalEm < 15) petEl.innerText = "😐";
+      else petEl.innerText = "😟";
+
+      // Recommendations
+      const recList = [];
+      if (cDays > 0) recList.push("Try carpooling or taking public transport more often.");
+      if (elec > 50) recList.push("Switch to LED bulbs or unplug idle electronics.");
+      if (chosenFood === "meat") recList.push("Consider having a few more meat-free days.");
+      if (shop > 2) recList.push("Limit unnecessary online orders to reduce packaging waste.");
+
+      document.getElementById("recList").innerHTML = recList
+        .map((r) => `<li>${r}</li>`)
+        .join("");
+
+      // Comparisons
+      const compList = [];
+      compList.push(`Equivalent to driving a car for ${(totalEm * 1000 / 120).toFixed(0)} km.`);
+      compList.push(`Equivalent to ${Math.round(totalEm * 200)} smartphone charges.`);
+      compList.push(`Equivalent to planting ${Math.round(totalEm * 100)} trees.`);
+      document.getElementById("compList").innerHTML = compList
+        .map((c) => `<li>${c}</li>`)
+        .join("");
+
+      // Show Results section
+      showSection("results");
+    });
+
+    // ─────────────── Reset for Next Week ───────────────
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      // Clear all inputs
+      document.querySelectorAll("input[type='number']").forEach((inp) => (inp.value = 0));
+      document.querySelectorAll("input[type='range']").forEach((inp) => inp.value = 0);
+      document.getElementById("carMinutesLabel").innerText = "0 min";
+      document.getElementById("busMinutesLabel").innerText = "0 min";
+      document.getElementById("trainMinutesLabel").innerText = "0 min";
+      document.getElementById("elecLabel").innerText = "0 kWh";
+      document.getElementById("gasLabel").innerText = "0 therms";
+      document.getElementById("heatLabel").innerText = "0 L";
+      document.getElementById("onlinePurchases").value = 0;
+
+      // Reset meal selection
+      document.querySelectorAll(".foodIcon").forEach((i) => i.classList.remove("selected"));
+      document.querySelector('.foodIcon[data-food="meat"]').classList.add("selected");
+      chosenFood = "meat";
+
+      // Reset pet
+      document.getElementById("petAvatar").innerText = "🐱";
+
+      // Clear summary, recommendations, comparisons
+      document.getElementById("summary").innerHTML = "";
+      document.getElementById("recList").innerHTML = "";
+      document.getElementById("compList").innerHTML = "";
+
+      // Go back to Dashboard
+      showSection("dashboard");
+    });
+  </script>
+</body>
+</html>
