@@ -21,6 +21,7 @@ function WeeklyTravelForm({ onSubmit }) {
   const [carMinutes, setCarMinutes] = useState(30);
   const [busMinutes, setBusMinutes] = useState(30);
   const [trainMinutes, setTrainMinutes] = useState(30);
+  const [planeHours, setPlaneHours] = useState(30);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,11 +39,13 @@ function WeeklyTravelForm({ onSubmit }) {
   };
 
   return (
+
     <form className="card mb-4" onSubmit={handleSubmit}>
+
       <div className="card-body">
-        <h1 className="card-title">Weekly Travel Check-In</h1>
+        
         <div className="mb-3">
-          <label className="form-label">🚗 Days you used a car:</label>
+          <label style={{ fontSize: "1.25rem" }}  className="form-label">🚗 Days you used a car:</label>
           <input
             type="number"
             min={0}
@@ -52,43 +55,8 @@ function WeeklyTravelForm({ onSubmit }) {
             onChange={e => setCarDays(Number(e.target.value))}
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">🚌 Days you rode the bus:</label>
-          <input
-            type="number"
-            min={0}
-            max={7}
-            className="form-control"
-            value={busDays}
-            onChange={e => setBusDays(Number(e.target.value))}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">🚆 Days you took the train:</label>
-          <input
-            type="number"
-            min={0}
-            max={7}
-            className="form-control"
-            value={trainDays}
-            onChange={e => setTrainDays(Number(e.target.value))}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">✈️ How many flights this week:</label>
-          <input
-            type="number"
-            min={0}
-            max={5}
-            className="form-control"
-            value={flightTrips}
-            onChange={e => setFlightTrips(Number(e.target.value))}
-          />
-        </div>
-        <hr />
-        <h2 className="mb-3">Roughly how many minutes per day for each mode?</h2>
-        <div className="mb-3">
-          <label className="form-label">🚗 Car trip length: {carMinutes} min</label>
+         <div className="mb-3">
+          <label className="form-label">Car trip length: {carMinutes} min</label>
           <input
             type="range"
             min={0}
@@ -99,8 +67,21 @@ function WeeklyTravelForm({ onSubmit }) {
             onChange={e => setCarMinutes(Number(e.target.value))}
           />
         </div>
+
+
         <div className="mb-3">
-          <label className="form-label">🚌 Bus trip length: {busMinutes} min</label>
+          <label style={{ fontSize: "1.25rem" }} className="form-label">🚌 Days you rode the bus:</label>
+          <input
+            type="number"
+            min={0}
+            max={7}
+            className="form-control"
+            value={busDays}
+            onChange={e => setBusDays(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Bus trip length: {busMinutes} min</label>
           <input
             type="range"
             min={0}
@@ -111,8 +92,21 @@ function WeeklyTravelForm({ onSubmit }) {
             onChange={e => setBusMinutes(Number(e.target.value))}
           />
         </div>
+
+
         <div className="mb-3">
-          <label className="form-label">🚆 Train trip length: {trainMinutes} min</label>
+          <label style={{ fontSize: "1.25rem" }} className="form-label">🚆 Days you took the train:</label>
+          <input
+            type="number"
+            min={0}
+            max={7}
+            className="form-control"
+            value={trainDays}
+            onChange={e => setTrainDays(Number(e.target.value))}
+          />
+        </div>
+         <div className="mb-3">
+          <label className="form-label">Train trip length: {trainMinutes} min</label>
           <input
             type="range"
             min={0}
@@ -123,6 +117,34 @@ function WeeklyTravelForm({ onSubmit }) {
             onChange={e => setTrainMinutes(Number(e.target.value))}
           />
         </div>
+
+
+        <div className="mb-3">
+          <label style={{ fontSize: "1.25rem" }}  className="form-label">✈️ How many flights this week:</label>
+          <input
+            type="number"
+            min={0}
+            max={5}
+            className="form-control"
+            value={flightTrips}
+            onChange={e => setFlightTrips(Number(e.target.value))}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Plane trip length: {planeHours} hours</label>
+          <input
+            type="range"
+            min={0}
+            max={24}
+            step={1}
+            className="form-range"
+            value={planeHours}
+            onChange={e => setPlaneHours(Number(e.target.value))}
+          />
+        </div>
+
+
+        <hr />
         <button type="submit" className="btn btn-primary mt-3">Submit</button>
       </div>
     </form>
@@ -160,7 +182,15 @@ function AdvancedForm() {
   const closeModal = () => setShowModal(false);
 
   return (
+
+    
     <div>
+
+      <div className="page-header" >
+        <h1  style={{ fontSize: "2rem" }} className="page-title">Weekly Travel Check-In</h1>
+        
+      </div>
+
       <WeeklyTravelForm onSubmit={handleTravelSubmit} />
 
       {/* Simple Modal */}
@@ -185,8 +215,8 @@ function AdvancedForm() {
             color: "#222", // <-- Ensure text is visible on white background
             minWidth: "250px"
           }}>
-            <h4 style={{color: "#222"}}>Data has been recorded</h4>
-            <button className="btn btn-success mt-3" onClick={closeModal}>OK</button>
+            <h4 style={{color: "#222", fontSize: "1.3rem"}}>Data has been recorded</h4>
+            <button className="btn btn-success mt-3" onClick={closeModal} style={{fontSize: "1.1rem"}}>OK</button>
           </div>
         </div>
       )}
