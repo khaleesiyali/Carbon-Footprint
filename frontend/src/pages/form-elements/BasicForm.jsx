@@ -21,7 +21,6 @@ const APPLIANCES = [
   { name: "Washing machine", watt: 450 },
   { name: "Tumbler dryer", watt: 1300 },
 ];
-
 function ElectricityUsageForm() {
   const [hours, setHours] = useState(
     APPLIANCES.reduce((acc, a) => ({ ...acc, [a.name]: "" }), {})
@@ -29,24 +28,49 @@ function ElectricityUsageForm() {
   const [showModal, setShowModal] = useState(false);
   const [totalKwh, setTotalKwh] = useState(0);
 
+  // For custom appliances
+  const [customAppliances, setCustomAppliances] = useState([]);
+  const [customName, setCustomName] = useState("");
+  const [customKwh, setCustomKwh] = useState("");
+  const [customHours, setCustomHours] = useState("");
+
   const handleChange = (appliance, value) => {
     setHours({ ...hours, [appliance]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Calculate total kWh per day
+    // Calculate total kWh per day for default appliances
     let totalWh = 0;
     APPLIANCES.forEach(a => {
       const h = parseFloat(hours[a.name]) || 0;
       totalWh += a.watt * h;
     });
-    const totalKwhDay = totalWh / 1000;
+    // Calculate total kWh per day for custom appliances
+    let customTotalKwh = 0;
+    customAppliances.forEach(a => {
+      const h = parseFloat(a.hours) || 0;
+      const kwh = parseFloat(a.kwh) || 0;
+      customTotalKwh += kwh * h;
+    });
+    const totalKwhDay = totalWh / 1000 + customTotalKwh;
     setTotalKwh(totalKwhDay);
     setShowModal(true);
   };
 
   const closeModal = () => setShowModal(false);
+
+  const handleAddCustom = (e) => {
+    e.preventDefault();
+    if (!customName || !customKwh || !customHours) return;
+    setCustomAppliances([
+      ...customAppliances,
+      { name: customName, kwh: customKwh, hours: customHours }
+    ]);
+    setCustomName("");
+    setCustomKwh("");
+    setCustomHours("");
+  };
 
   return (
     <div className="card mb-4">
@@ -62,6 +86,7 @@ function ElectricityUsageForm() {
                 <input
                   type="number"
                   min={0}
+                  max={24}
                   step={1}
                   className="form-control"
                   placeholder="Hours used per day"
@@ -71,10 +96,62 @@ function ElectricityUsageForm() {
               </div>
             ))}
           </div>
-          <button type="submit" className="btn btn-primary mt-3">Submit</button>
-        </form>
-      </div>
-      {/* Modal */}
+          <hr />
+          <h5>Add Your Own Appliance</h5>
+          <div className="row align-items-end">
+            <div className="col-md-4 mb-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Appliance name"
+                value={customName}
+                onChange={e => setCustomName(e.target.value)}
+              />
+            </div>
+            <div className="col-md-3 mb-2">
+              <input
+                type="number"
+                min={0}
+                step="any"
+                className="form-control"
+                placeholder="kWh per hour"
+                value={customKwh}
+                onChange={e => setCustomKwh(e.target.value)}
+              />
+            </div>
+            <div className="col-md-3 mb-2">
+              <input
+                type="number"
+                min={0}
+                max={24}
+                step={1}
+                className="form-control"
+                placeholder="Hours used per day"
+                value={customHours}
+                onChange={e => setCustomHours(e.target.value)}
+              />
+            </div>
+            <div className="col-md-2 mb-2">
+              <button className="btn btn-success w-100" onClick={handleAddCustom}>Add</button>
+            </div>
+          </div>
+          {/* Show custom appliances */}
+                {customAppliances.length > 0 && (
+                <div className="mt-3">
+                  <h6>Custom Appliances Added:</h6>
+                  <ul>
+                  {customAppliances.map((a, idx) => (
+                    <li key={idx}>
+                    {a.name} - {a.kwh} kWh/hour × {a.hours} hours/day
+                    </li>
+                  ))}
+                  </ul>
+                </div>
+                )}
+                <button type="submit" className="btn btn-success mt-3">Submit</button>
+              </form>
+              </div>
+              {/* Modal */}
       {showModal && (
         <div
           style={{
@@ -123,7 +200,10 @@ function BasicForm() {
     
       {/* --- Electricity Usage Form --- */}
       <ElectricityUsageForm />
-      {/* --- Existing forms below --- */}
+      
+      {/* --- Existing forms below --- 
+
+
       <div className="row">
         <div className="col-md-6 grid-margin stretch-card">
           <div className="card">
@@ -217,6 +297,8 @@ function BasicForm() {
           </div>
         </div>
       </div>
+  */}
+
     </div>
 
 

@@ -18,10 +18,10 @@ function WeeklyTravelForm({ onSubmit }) {
   const [trainDays, setTrainDays] = useState(0);
   const [flightTrips, setFlightTrips] = useState(0);
 
-  const [carMinutes, setCarMinutes] = useState(30);
-  const [busMinutes, setBusMinutes] = useState(30);
-  const [trainMinutes, setTrainMinutes] = useState(30);
-  const [planeHours, setPlaneHours] = useState(30);
+  const [carMinutes, setCarMinutes] = useState(0);
+  const [busMinutes, setBusMinutes] = useState(0);
+  const [trainMinutes, setTrainMinutes] = useState(0);
+  const [planeHours, setPlaneHours] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ function WeeklyTravelForm({ onSubmit }) {
       <div className="card-body">
         
         <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }}  className="form-label">🚗 Days you used a car:</label>
+          <label style={{ fontSize: "1.25rem" }}  className="form-label">Days you used a car:</label>
           <input
             type="number"
             min={0}
@@ -55,22 +55,29 @@ function WeeklyTravelForm({ onSubmit }) {
             onChange={e => setCarDays(Number(e.target.value))}
           />
         </div>
-         <div className="mb-3">
-          <label className="form-label">Car trip length: {carMinutes} min</label>
-          <input
-            type="range"
-            min={0}
-            max={180}
-            step={15}
-            className="form-range"
-            value={carMinutes}
-            onChange={e => setCarMinutes(Number(e.target.value))}
+
+          <div className="mb-3">
+            <label className="form-label">Car trip length: {carMinutes} min</label>
+            <input
+              type="range"
+              min={0}
+              max={180}
+              step={15}
+              className="form-range green-range"
+              value={carMinutes}
+              onChange={e => setCarMinutes(Number(e.target.value))}
+              style={{
+                accentColor: "#28a745"
+              }}
           />
+          
         </div>
 
+        {/* --- Space between car and bus sections --- */}
+        <div style={{ height: 50 }} />
 
         <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }} className="form-label">🚌 Days you rode the bus:</label>
+          <label style={{ fontSize: "1.25rem" }} className="form-label">Days you rode the bus:</label>
           <input
             type="number"
             min={0}
@@ -87,15 +94,20 @@ function WeeklyTravelForm({ onSubmit }) {
             min={0}
             max={180}
             step={15}
-            className="form-range"
+            className="form-range green-range"
             value={busMinutes}
             onChange={e => setBusMinutes(Number(e.target.value))}
+            style={{
+              accentColor: "#28a745"
+            }}
           />
         </div>
 
+        {/* --- Space between bus and train sections --- */}
+        <div style={{ height: 50 }} />
 
         <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }} className="form-label">🚆 Days you took the train:</label>
+          <label style={{ fontSize: "1.25rem" }} className="form-label">Days you took the train:</label>
           <input
             type="number"
             min={0}
@@ -112,15 +124,20 @@ function WeeklyTravelForm({ onSubmit }) {
             min={0}
             max={180}
             step={15}
-            className="form-range"
+            className="form-range green-range"
             value={trainMinutes}
             onChange={e => setTrainMinutes(Number(e.target.value))}
+            style={{
+              accentColor: "#28a745"
+            }}
           />
         </div>
 
+        {/* --- Space between train and flight sections --- */}
+        <div style={{ height: 50 }} />
 
         <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }}  className="form-label">✈️ How many flights this week:</label>
+          <label style={{ fontSize: "1.25rem" }}  className="form-label">How many flights this week:</label>
           <input
             type="number"
             min={0}
@@ -137,16 +154,34 @@ function WeeklyTravelForm({ onSubmit }) {
             min={0}
             max={24}
             step={1}
-            className="form-range"
+            className="form-range green-range"
             value={planeHours}
             onChange={e => setPlaneHours(Number(e.target.value))}
+            style={{
+              accentColor: "#28a745"
+            }}
           />
         </div>
 
-
         <hr />
-        <button type="submit" className="btn btn-primary mt-3">Submit</button>
+        <button type="submit" className="btn btn-success mt-3">Submit</button>
       </div>
+      <style>
+        {`
+          .form-range.green-range::-webkit-slider-thumb {
+            background:rgb(64, 164, 139) !important;
+            border: 2px rgb(64, 164, 139) !important;
+          }
+          .form-range.green-range::-moz-range-thumb {
+            background:rgb(64, 164, 139) !important;
+            border: 2px rgb(64, 164, 139)!important;
+          }
+          .form-range.green-range::-ms-thumb {
+            background:rgb(64, 164, 139)!important;
+            border: 2px rgb(64, 164, 139) #218838 !important;
+          }
+        `}
+      </style>
     </form>
   );
 }
