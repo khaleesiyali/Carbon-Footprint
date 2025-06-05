@@ -1,4 +1,4 @@
-CHANGES 
+INPUT SIDEBAR (RENAME)
 * AdvancedForm --> Travel (Input)
 * BasicInfo --> Electricity 
 * 
