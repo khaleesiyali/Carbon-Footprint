@@ -132,7 +132,17 @@ function ElectricityUsageForm() {
               />
             </div>
             <div className="col-md-2 mb-2">
-              <button className="btn btn-success w-100" onClick={handleAddCustom}>Add</button>
+              <button
+                className="btn w-100"
+                style={{
+                  backgroundColor: "rgb(39, 185, 136)",
+                  borderColor: "rgb(39, 185, 136)",
+                  color: "#fff"
+                }}
+                onClick={handleAddCustom}
+              >
+                Add
+              </button>
             </div>
           </div>
           {/* Show custom appliances */}
@@ -148,7 +158,18 @@ function ElectricityUsageForm() {
                   </ul>
                 </div>
                 )}
-                <button type="submit" className="btn btn-success mt-3">Submit</button>
+                <button
+                  type="submit"
+                  className="btn mt-3"
+                  style={{
+                    backgroundColor: "rgb(39, 185, 136)",
+                    borderColor: "rgb(39, 185, 136)",
+                    color: "#fff"
+                  }}
+                >
+                  Submit
+                </button>
+                
               </form>
               </div>
               {/* Modal */}
@@ -190,9 +211,8 @@ function BasicForm() {
   return (
 
     <div>
-       <div className="page-header" >
-        <h1  style={{ fontSize: "2rem" }} className="page-title">Weekly Electricity Usage Check-In</h1>
-        
+      <div className='page-header'>
+        <h1  style={{ fontSize: "2rem", color: "rgb(67, 209, 162)" }} className="page-title">Weekly Electricity Usage Check-In</h1>
       </div>
 
 

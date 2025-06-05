@@ -73,6 +73,8 @@ function Sidebar() {
   }, [location.pathname]); 
 
   return (
+  
+
     <>
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
@@ -533,9 +535,12 @@ function Sidebar() {
                         : "nav-link"
                     }
                     to="/form-elements/validation">
-                    Validation
+                    Shopping
                   </Link>
                 </li>
+                
+                
+                {/*
                 <li className="nav-item">
                   <Link
                     className={
@@ -547,6 +552,8 @@ function Sidebar() {
                     Wizard
                   </Link>
                 </li>
+                  */}
+
               </ul>
             </Collapse>
           </li>
@@ -1181,8 +1188,45 @@ function Sidebar() {
 
         </ul>
       </nav>
+
+<style>
+{`
+  .sidebar .nav .nav-link,
+  .sidebar .nav .nav-link span.menu-title {
+    color: #fff !important; /* White by default */
+    transition: color 0.2s;
+  }
+  .sidebar .nav .nav-link .menu-icon {
+    color:rgb(45, 169, 128) !important; /* All icons green */
+    transition: color 0.2s;
+  }
+  .sidebar .nav .nav-link .menu-arrow {
+    color:rgb(45, 169, 128)!important; /* Dropdown arrow green */
+    transition: color 0.2s;
+  }
+  .sidebar .nav .nav-link:hover,
+  .sidebar .nav .nav-link.active,
+  .sidebar .nav .nav-link:hover span.menu-title,
+  .sidebar .nav .nav-link.active span.menu-title {
+    color:rgb(45, 169, 128) !important; /* Green on hover/active */
+  }
+  .sidebar .nav .nav-link:hover .menu-icon,
+  .sidebar .nav .nav-link.active .menu-icon,
+  .sidebar .nav .nav-link:hover .menu-arrow,
+  .sidebar .nav .nav-link.active .menu-arrow {
+    color:rgb(45, 169, 128)!important; /* Ensure icon & arrow stay green on hover/active */
+  }
+`}
+</style>
+
     </>
   );
 }
 
+
+
+
+
 export default Sidebar;
+
+

@@ -163,8 +163,18 @@ function WeeklyTravelForm({ onSubmit }) {
           />
         </div>
 
-        <hr />
-        <button type="submit" className="btn btn-success mt-3">Submit</button>
+       <hr />
+<button
+  type="submit"
+  className="btn mt-3"
+  style={{
+    backgroundColor: "rgb(39, 185, 136)",
+    borderColor: "rgb(39, 185, 136)",
+    color: "#fff"
+  }}
+>
+  Submit
+</button>
       </div>
       <style>
         {`
@@ -221,9 +231,8 @@ function AdvancedForm() {
     
     <div>
 
-      <div className="page-header" >
-        <h1  style={{ fontSize: "2rem" }} className="page-title">Weekly Travel Check-In</h1>
-        
+      <div className='page-header'>
+        <h1  style={{ fontSize: "2rem", color: "rgb(67, 209, 162)" }} className="page-title">Weekly Travel Check-In</h1>
       </div>
 
       <WeeklyTravelForm onSubmit={handleTravelSubmit} />
