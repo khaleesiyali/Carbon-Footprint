@@ -64,7 +64,7 @@ function Validation() {
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
   {/* --- Shopping Snapshot --- */}
   <div className="mb-4">
-    <h5>🛍️ Shopping Snapshot</h5>
+    <h5>Shopping Snapshot</h5>
     <p>Which of these did you do this week? (Select all that apply.)</p>
     <div>
       <Form.Check
