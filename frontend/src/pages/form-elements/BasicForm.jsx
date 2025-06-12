@@ -9,9 +9,8 @@ import InputSizes from "../../components/forms/InputSizes"
 import SelectSizes from "../../components/forms/SelectSizes"
 import TwoColumnForm from "../../components/forms/TwoColumnForm"
 import { useState } from "react";
-import applianceService from "../../services/appliances";
 
-/*const APPLIANCES = [
+const APPLIANCES = [
   { name: "Air conditioner", watt: 580 },
   { name: "IH cooking heater", watt: 2500 },
   { name: "Refrigerator", watt: 250 },
@@ -22,12 +21,6 @@ import applianceService from "../../services/appliances";
   { name: "Washing machine", watt: 450 },
   { name: "Tumbler dryer", watt: 1300 },
 ];
-*/
-
-const APPLIANCES = [];
-
-applianceService.getAll().then(appliances => appliances.forEach(appliance => APPLIANCES.push(appliance)));
-
 function ElectricityUsageForm() {
   const [hours, setHours] = useState(
     APPLIANCES.reduce((acc, a) => ({ ...acc, [a.name]: "" }), {})
@@ -85,7 +78,7 @@ function ElectricityUsageForm() {
         <h4 className="card-title">Electricity Usage Calculator</h4>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            {APPLIANCES.map(a => (
+            {APPLIANCES.map((a, idx) => (
               <div className="col-md-6 mb-3" key={a.name}>
                 <label className="form-label">
                   {a.name} ({a.watt}W)
