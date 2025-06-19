@@ -9,7 +9,7 @@ import InputSizes from "../../components/forms/InputSizes"
 import SelectSizes from "../../components/forms/SelectSizes"
 import TwoColumnForm from "../../components/forms/TwoColumnForm"
 import { useState } from "react";
-import applianceService from "../../services/appliancesService";
+import applianceService from "../../services/appliance";
 
 /* const APPLIANCES = [
   { name: "Air conditioner", watt: 580 },
