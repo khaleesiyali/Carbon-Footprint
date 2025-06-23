@@ -1,6 +1,6 @@
 # core/seeder.py
 
-from .models import Appliance, UsageRecord
+from .models import Appliance, UsageRecord, Category, ShoppingRecord
 
 def run_seeder():
     print("Seeder running...")
@@ -46,3 +46,17 @@ def run_seeder():
                 appliance=appliance,
                 defaults={'hours_per_day': hours}
             )
+
+    category_data = [
+        ("clothing", "Clothing", 4.052),
+        ("electronics", "Electronics", 4.093),
+        ("household", "Household Goods", 32.875),
+        ("streaming", "Streaming Service", 2.433),
+    ]
+
+    for slug, label, factor in category_data:
+        obj, created = Category.objects.get_or_create(
+            slug=slug,
+            defaults={"label": label, "emission_factor_yen": factor}
+        )
+        print(f"{'✅ Created' if created else '✔️ Exists'}: {label}")

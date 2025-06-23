@@ -1,11 +1,13 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import ApplianceViewSet, UsageRecordViewSet, guest_energy_summary
+from .views import ApplianceViewSet, UsageRecordViewSet, guest_energy_summary, CategoryViewSet, ShoppingRecordViewSet, shopping_summary
 
 router = DefaultRouter()
 router.register(r'appliances', ApplianceViewSet)
 router.register(r'usagerecords', UsageRecordViewSet)
+router.register(r'categories', CategoryViewSet)
+router.register(r'shopping', ShoppingRecordViewSet)
 
 urlpatterns = [
     path('guest/', views.guest_view, name='guest'),
@@ -14,6 +16,5 @@ urlpatterns = [
     path('advice/', views.advice_view, name='advice'),
     path('api/', include(router.urls)),
     path('api/guest-summary/<str:guest_id>/', guest_energy_summary),
-    ]
-
-
+    path('api/shopping-summary/<str:guest_id>/', shopping_summary),
+]

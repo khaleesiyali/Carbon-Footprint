@@ -23,3 +23,27 @@ class UsageRecord(models.Model):
 
     def __str__(self):
         return f"Guest {self.guest_id} - {self.appliance.name}"
+    
+
+class Category(models.Model):
+    slug = models.SlugField(unique=True)  # e.g., "clothing"
+    label = models.CharField(max_length=100)  # e.g., "Clothing"
+    emission_factor_yen = models.FloatField(help_text="Emission factor per ¥100,000 spent (kg CO₂e)")
+
+    def __str__(self):
+        return self.label
+
+
+class ShoppingRecord(models.Model):
+    guest_id = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    price_yen = models.FloatField(help_text="Price per item in ¥")
+    quantity = models.PositiveIntegerField()
+
+    def emission_kg(self):
+        total_spending = self.price_yen * self.quantity
+        return (total_spending / 100000) * self.category.emission_factor_yen
+
+    def __str__(self):
+        return f"{self.guest_id} bought {self.quantity}x {self.category.label}"
+

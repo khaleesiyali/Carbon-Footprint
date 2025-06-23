@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import Appliance, UsageRecord
+from .models import Appliance, UsageRecord, Category, ShoppingRecord
 
 # Register your models here.
 
 admin.site.register(Appliance)
 admin.site.register(UsageRecord)
+admin.site.register(Category)
+admin.site.register(ShoppingRecord)
+

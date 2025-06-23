@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.viewsets import ModelViewSet
-from .models import Appliance, UsageRecord
-from .serializers import ApplianceSerializer, UsageRecordSerializer
+from .models import Appliance, UsageRecord, Category, ShoppingRecord
+from .serializers import ApplianceSerializer, UsageRecordSerializer, CategorySerializer, ShoppingRecordSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -41,3 +41,22 @@ def guest_energy_summary(request, guest_id):
     records = UsageRecord.objects.filter(guest_id=guest_id)
     total_joules = sum(record.energy_per_year_joules() for record in records)
     return Response({"guest_id": guest_id, "total_energy_joules": total_joules})
+
+
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ShoppingRecordViewSet(ModelViewSet):
+    queryset = ShoppingRecord.objects.all()
+    serializer_class = ShoppingRecordSerializer
+
+
+@api_view(['GET'])
+def shopping_summary(request, guest_id):
+    records = ShoppingRecord.objects.filter(guest_id=guest_id)
+    total_kg = sum(r.emission_kg() for r in records)
+    return Response({
+        "guest_id": guest_id,
+        "total_shopping_emissions_kg": round(total_kg, 2)
+    })
