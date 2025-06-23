@@ -11,7 +11,7 @@ import TwoColumnForm from "../../components/forms/TwoColumnForm"
 import { useState } from "react";
 import applianceService from "../../services/appliance";
 
-/* const APPLIANCES = [
+const APPLIANCES = [
   { name: "Air conditioner", watt: 580 },
   { name: "IH cooking heater", watt: 2500 },
   { name: "Refrigerator", watt: 250 },
@@ -22,10 +22,10 @@ import applianceService from "../../services/appliance";
   { name: "Washing machine", watt: 450 },
   { name: "Tumbler dryer", watt: 1300 },
 ];
-*/
 
-const APPLIANCES = []
-applianceService.getAll().then(appliances => appliances.forEach(appliance => APPLIANCES.push(appliance)));
+
+/*const APPLIANCES = []
+applianceService.getAll().then(appliances => appliances.forEach(appliance => APPLIANCES.push(appliance))); */
 
 
 function ElectricityUsageForm() {
