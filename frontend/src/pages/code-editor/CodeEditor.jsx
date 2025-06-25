@@ -10,7 +10,7 @@ import "ace-builds/src-noconflict/mode-php"
 // import themes
 import "ace-builds/src-noconflict/theme-github"
 import "ace-builds/src-noconflict/theme-monokai"
-
+import { useState } from 'react';
 
 const aceHeight = {
   minHeight: "300px"
@@ -20,264 +20,119 @@ function onChange(newValue) {
   console.log("change", newValue);
 }
 
+function ResultTable({ title, data, onCommentChange, onDelete }) {
+  return (
+    <div className="mb-5">
+      <h4 style={{ fontWeight: 600 }}>{title}</h4>
+      <div className="table-responsive">
+        <table className="table table-bordered align-middle">
+          <thead style={{
+                            backgroundColor: "rgb(39, 185, 136)",
+                            borderColor: "rgb(39, 185, 136)",
+                            color: "#fff",  
+                          
+                        }}>
+            <tr>
+              <th>Date Added</th>
+              <th>Emission (tCO2E)</th>
+              <th>Details</th>
+              <th>Comments</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.length === 0 && (
+              <tr>
+                <td colSpan={5} className="text-center text-muted">No data</td>
+              </tr>
+            )}
+            {data.map((row, idx) => (
+              <tr key={row.id || idx}>
+                <td>{row.date}</td>
+                <td>{row.emission}</td>
+                <td>{row.details}</td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={row.comment}
+                    onChange={e => onCommentChange(idx, e.target.value)}
+                  />
+                </td>
+                <td>
+                  <button className="btn btn-danger btn-sm" onClick={() => onDelete(idx)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function CodeEditor() {
+  // Example state for each input type
+  const [electricity, setElectricity] = useState([
+    { date: "2024-06-23", emission: 0.12, details: "Monthly bill: 100kWh", comment: "" }
+  ]);
+  const [travel, setTravel] = useState([
+    { date: "2024-06-23", emission: 0.25, details: "Car: 3 days, Bus: 2 days", comment: "" }
+  ]);
+  const [shopping, setShopping] = useState([
+    { date: "2024-06-23", emission: 0.08, details: "Clothing: 2 items", comment: "" }
+  ]);
+
+  // Handlers for comment editing and delete
+  const handleCommentChange = (type, idx, value) => {
+    const setter = type === 'electricity' ? setElectricity : type === 'travel' ? setTravel : setShopping;
+    const data = type === 'electricity' ? electricity : type === 'travel' ? travel : shopping;
+    const updated = [...data];
+    updated[idx].comment = value;
+    setter(updated);
+  };
+
+  const handleDelete = (type, idx) => {
+    const setter = type === 'electricity' ? setElectricity : type === 'travel' ? setTravel : setShopping;
+    const data = type === 'electricity' ? electricity : type === 'travel' ? travel : shopping;
+    const updated = data.filter((_, i) => i !== idx);
+    setter(updated);
+  };
+
   return (
     <>
       <div className="page-header">
-        <h3 className="page-title"> Code editors </h3>
+        <h3 className="page-title"> Results </h3>
         <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Editors</a></li>
-            <li className="breadcrumb-item active" aria-current="page">Code editors</li>
-          </ol>
+          
         </nav>
-      </div>  
+      </div>
+
+
       <div className="row">
         <div className="col-12 grid-margin">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Ace Editor</h4>
-              <div className="row">
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">HTML Mode</h5>
-                  <AceEditor 
-                    style={aceHeight}
-                    mode="html"
-                    theme='monokai'
-                    name='firstEditor'
-                    onChange={onChange}
-                    editorProps={{ $blockScrolling: true }}
-                    fontSize={14}
-                    showPrintMargin={true}
-                    highlightActiveLine={true}
-                    height='100%'
-                    width='100%'
-                    value={`
-<div className="panel panel-default">
-<div className="panel-heading">
-  <h5 className="panel-title">
-    Panel Title
-    <span className="text-semibold">Default</span>
-    <small>Full featured toolbar</small>
-  </h5>
-  <ul className="panel-heading-icons">
-    <li>
-      <a href="!#" onClick={event => event.preventDefault()} data-panel="collapse"><i className="icon-arrow-down2"></i></a>
-    </li>
-    <li>
-      <a href="!#" onClick={event => event.preventDefault()} data-panel="reload"><i className="icon-reload"></i></a>
-    </li>
-    <li>
-      <a href="!#" onClick={event => event.preventDefault()} data-panel="move"><i className="icon-move"></i></a>
-    </li>
-    <li>
-      <a href="!#" onClick={event => event.preventDefault()} data-panel="close"><i className="icon-close"></i></a>
-    </li>
-  </ul>
-</div>
-<div className="panel-body">
-  Panel body
-</div>
-div>
-                    `}
-                  />
-                </div>
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">Javascript Mode</h5>
-                  <AceEditor 
-                    style={aceHeight}
-                    mode='javascript'
-                    theme='monokai'
-                    name='javaEditor'
-                    editorProps={{ $blockScrolling: true }}
-                    placeholder="Placeholder Text"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    height="100%"
-                    width="100%"
-                    value={`
- /**
-  * In fact, you're looking at ACE right now. Go ahead and play with it!
-  *
-  * We are currently showing off the JavaScript mode. ACE has support for 45
-  * language modes and 24 color themes!
-*/
-    
-    function add(x, y) {
-      var resultString = "Hello, ACE! The result of your math is: ";
-      var result = x + y;
-      return resultString + result;
-    }
-    
-    var addResult = add(3, 2);
-    console.log(addResult);
-                    `}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">CSS Mode</h5>
-                  <AceEditor 
-                  style={aceHeight}
-                    mode='css'
-                    theme='monokai'
-                    name='cssEditor'
-                    editorProps={{ $blockScrolling: true }}
-                    placeholder="Placeholder Text"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    height="100%"
-                    width="100%"
-                    value={`
-.nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.nav li {
-  display: inline-block;
-}
-
-.nav a {
-  display: block;
-  padding: 6px 12px;
-  text-decoration: none;
-}
-                    `}
-                  />
-                </div>
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">scss Mode</h5>
-                  <AceEditor 
-                    style={aceHeight}
-                    mode="sass"
-                    theme='monokai'
-                    name="sassEditor"
-                    editorProps={{ $blockScrolling: true }}
-                    placeholder="Placeholder Text"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    height="100%"
-                    width="100%"
-                    value={`
-.nav {
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  a {
-    display: block;
-    padding: 6px 12px;
-    text-decoration: none;
-  }
-}
-                    `}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">Json Mode</h5>
-                  <AceEditor 
-                    style={aceHeight}
-                    mode='json'
-                    theme='monokai'
-                    name='jsonEditor'
-                    editorProps={{ $blockScrolling: true }}
-                    placeholder="Placeholder Text"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    height="100%"
-                    width="100%"
-                    value={`
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "isAlive": true,
-  "age": 27,
-  "address": {
-  "streetAddress": "21 2nd Street",
-  "city": "New York",
-  "state": "NY",
-  "postalCode": "10021-3100"
-  },
-  "phoneNumbers": [
-    {
-      "type": "home",
-      "number": "212 555-1234"
-    },
-    {
-      "type": "office",
-      "number": "646 555-4567"
-    },
-    {
-      "type": "mobile",
-      "number": "123 456-7890"
-    }
-  ],
-  "children": [],
-  "spouse": null
-}
-                    `}
-                  />
-                </div>
-                <div className="col-md-6 grid-margin">
-                  <h5 className="card-subtitle">PHP Mode</h5>
-                  <AceEditor 
-                    style={aceHeight}
-                    mode='php'
-                    theme='monokai'
-                    name='phpEditor'
-                    editorProps={{ $blockScrolling: true }}
-                    placeholder="Placeholder Text"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    height="100%"
-                    width="100%"
-                    value={`
-  <?php
-
-  function nfact($n) {
-    if ($n == 0) {
-      return 1;
-    }
-    else {
-      return $n * nfact($n - 1);
-    }
-  }
-
-  echo "\n\nPlease enter a whole number ... ";
-  $num = trim(fgets(STDIN));
-
-
-  // ===== PROCESS - Determing the factorial of the input number =====
-
-  $output = "\n\nFactorial " . $num . " = " . nfact($num) . "\n\n";
-  echo $output;
-
-  ?>
-                    `}
-                  />
-                </div>
-              </div>
+              <ResultTable
+                title="Electricity"
+                data={electricity}
+                onCommentChange={(idx, val) => handleCommentChange('electricity', idx, val)}
+                onDelete={idx => handleDelete('electricity', idx)}
+              />
+              <ResultTable
+                title="Travel"
+                data={travel}
+                onCommentChange={(idx, val) => handleCommentChange('travel', idx, val)}
+                onDelete={idx => handleDelete('travel', idx)}
+              />
+              <ResultTable
+                title="Shopping"
+                data={shopping}
+                onCommentChange={(idx, val) => handleCommentChange('shopping', idx, val)}
+                onDelete={idx => handleDelete('shopping', idx)}
+              />
             </div>
           </div>
         </div>
