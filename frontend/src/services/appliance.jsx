@@ -7,4 +7,15 @@ const getAll = async () => {
     return response.data;
 
 };
-export default {getAll};
+
+const getById = async (id) => {
+    const response = await axios.get(`${baseURL}/${id}/?format=json`);
+    return response.data;
+}
+
+const newAppliance = async (appliance) => {
+    const request = await axios.post(`${baseURL}/`, appliance);
+    return request.data;
+}
+
+export default {getAll, getById, newAppliance,};
