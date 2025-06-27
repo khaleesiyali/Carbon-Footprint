@@ -6,6 +6,8 @@ import ProjectStatus from '../../components/tables/dashboard/ProjectStatus'
 import TodoApp from '../../components/apps/TodoApp'
 import InlineDatePicker from '../../components/forms/InlineDatePicker'
 import { useNavigate } from 'react-router-dom'
+import AdvancedForm from '../form-elements/AdvancedForm'
+import { useState } from 'react'
 
 
 function Dashboard() {
@@ -72,15 +74,13 @@ function Dashboard() {
                             color: "#fff",  
                           fontSize: "1.1rem"
                         }}
-                        onClick={() => navigate('/advanced-form')}
+                        onClick={() => navigate('/form-elements/advanced-elements')}
                       >
                         Get Started
                       </Button>
                       
                     </div>
-                    
-              
-                    
+                  
                   </div>
                 </div>
               </div>
@@ -101,7 +101,7 @@ function Dashboard() {
           <div className='card bg-gradient-danger card-img-holder text-white'>
             <div className='card-body'>
               <img src="/images/dashboard/circle.png" alt="circle" className='card-img-absolute' />
-              <h4 className="font-weight-normal mb-3" style={{ fontSize: '3rem' }}>Travel <i className="mdi mdi-chart-line mdi-24px float-end"></i></h4>
+              <h4 className="font-weight-normal mb-3" style={{ fontSize: '3rem' }}>Electricity <i className="mdi mdi-chart-line mdi-24px float-end"></i></h4>
               <h2 className='mb-5' style={{ fontSize: '1.2rem' }}>Emissions (tCO2E): 0.0</h2>
               <h6 className='card-text' style={{ fontSize: '1rem' }}>Increased by 0% from last week</h6>
             </div>
@@ -111,7 +111,7 @@ function Dashboard() {
           <div className='card bg-gradient-info card-img-holder text-white'>
             <div className='card-body'>
                 <img src="/images/dashboard/circle.png" className="card-img-absolute" alt="circle" />
-                <h4 className="font-weight-normal mb-3" style={{ fontSize: '3rem' }}>Electricity <i className="mdi mdi-bookmark-outline mdi-24px float-end"></i></h4>
+                <h4 className="font-weight-normal mb-3" style={{ fontSize: '3rem' }}>Travel <i className="mdi mdi-bookmark-outline mdi-24px float-end"></i></h4>
                 <h2 className="mb-5" style={{ fontSize: '1.2rem' }}>Emissions (tCO2E): 0.0</h2>
                 <h6 className="card-text" style={{ fontSize: '1rem' }}>Decreased by 10% from last week</h6>
             </div>
@@ -166,16 +166,16 @@ function Dashboard() {
               <div id='traffic-chart-legend' className='rounded-legend legend-vertical legend-bottom-left pt-4'>
                 <ul>
                   <li>
-                    <span className="legend-dots bg-info"></span>Travel
+                    <span className="legend-dots" style={{backgroundColor: 'rgba(154, 85, 255, 1)'}}></span>Travel
                     <span className="float-end" style={{ fontSize: '1rem' }}>30%</span>
                   </li>
                   <li>
-                    <span className="legend-dots bg-success"></span>Electricity
-                    <span className="float-end" style={{ fontSize: '1rem' }}>50%</span>
+                    <span className="legend-dots" style={{backgroundColor: 'rgba(54, 215, 232, 1)'}}></span>Shopping
+                    <span className="float-end" style={{ fontSize: '1rem' }}>30%</span>
                   </li>
                   <li>
-                    <span className="legend-dots bg-danger"></span>Shopping
-                    <span className="float-end" style={{ fontSize: '1rem' }}>20%</span>
+                    <span className="legend-dots" style={{backgroundColor: 'rgba(254, 112, 150, 1)'}}></span>Electricity
+                    <span className="float-end" style={{ fontSize: '1rem' }}>40%</span>
                   </li>
                 </ul>
               </div>
@@ -186,54 +186,16 @@ function Dashboard() {
 
 
 
+      {/* FAQ Section */}
       <div className='row'>
-        <div className="col-lg-7 grid-margin stretch-card">
-          <div className="card">
+        <div className="col-12 grid-margin stretch-card"> {/* Full width */}
+          <div className="card bg-dark" style={{ minHeight: '320px', borderRadius: '1.2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
             <div className="card-body">
-              <h4 className="card-title" style={{ fontSize: '1.3rem' }}>FAQS</h4>
-              <div className="d-flex">
-                <div className="d-flex align-items-center me-4 text-muted fw-light" style={{ fontSize: '1rem' }}>
-                  <i className="mdi mdi-account-outline icon-sm me-2"></i>
-                  <span>jack Menqu</span>
-                </div>
-                <div className="d-flex align-items-center text-muted fw-light" style={{ fontSize: '1rem' }}>
-                  <i className="mdi mdi-clock icon-sm me-2"></i>
-                  <span>October 3rd, 2018</span>
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-6 pr-1">
-                  <img src="/images/dashboard/img_1.jpg" className="mb-2 mw-100 w-100 rounded" alt="face" />
-                  <img src="/images/dashboard/img_4.jpg" className="mw-100 w-100 rounded" alt="face" />
-                </div>
-                <div className="col-6 pl-1">
-                  <img src="/images/dashboard/img_2.jpg" className="mb-2 mw-100 w-100 rounded" alt="face" />
-                  <img src="/images/dashboard/img_3.jpg" className="mw-100 w-100 rounded" alt="face "/>
-                </div>
-              </div>
-              <div className="d-flex mt-5 align-items-start">
-                <img src="/images/faces/face3.jpg" className="img-sm rounded-circle me-3" alt="face" />
-                <div className="mb-0 flex-grow">
-                  <h5 className="me-2 mb-2" style={{ fontSize: '1.1rem' }}>School Website - Authentication Module.</h5>
-                  <p className="mb-0 font-weight-light" style={{ fontSize: '1rem' }}>It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                </div>
-                <div className="ms-auto">
-                  <i className="mdi mdi-heart-outline text-muted"></i>
-                </div>
-              </div>
+              <h4 className="card-title" style={{ fontSize: '1.7rem', color: '#fff', fontWeight: 700, letterSpacing: '0.5px', marginBottom: 24 }}>FAQs</h4>
+              <FAQList />
             </div>
           </div>
         </div>
-        <div className='col-lg-5 grid-margin stretch-card'>
-          <div className='card'>
-            <div className='card-body p-0 d-flex'>
-              <div className='dashboard-custom-date-picker'>
-                <InlineDatePicker />
-              </div>
-            </div>
-          </div>
-        </div>
-        
       </div>
 
 
@@ -266,3 +228,50 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+// FAQList component
+function FAQList() {
+  const [openIdx, setOpenIdx] = useState(null);
+  const faqs = [
+    {
+      q: "What is a carbon footprint?",
+      a: "A carbon footprint is the total amount of greenhouse gases, primarily carbon dioxide, that are emitted directly or indirectly by your activities."
+    },
+    {
+      q: "How does this website calculate my carbon footprint?",
+      a: "This website uses your input data for travel, electricity, and shopping to estimate your carbon emissions using standard emission factors."
+    },
+    {
+      q: "How can I reduce my carbon footprint?",
+      a: "You can reduce your carbon footprint by using public transport, conserving electricity, buying local products, and reducing waste."
+    },
+    {
+      q: "Is my data private and secure?",
+      a: "Yes, your data is kept private and is only used to help you track and reduce your carbon emissions."
+    },
+    {
+      q: "Can I track my progress over time?",
+      a: "Yes, you can track your carbon emissions over time using the dashboard and results pages."
+    }
+  ];
+  return (
+    <div style={{ width: '100%' }}>
+      {faqs.map((faq, idx) => (
+        <div key={idx} style={{ borderBottom: '1px solid #444', padding: '18px 0', transition: 'background 0.2s', background: openIdx === idx ? 'rgba(255,255,255,0.04)' : 'transparent' }}>
+          <div
+            style={{ cursor: 'pointer', fontWeight: 600, fontSize: '1.18rem', color: '#fff', display: 'flex', alignItems: 'center', letterSpacing: '0.2px' }}
+            onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+          >
+            <span style={{ marginRight: 12, fontSize: '1.2rem', color: '#28e07b' }}>{openIdx === idx ? '▼' : '▶'}</span>
+            {faq.q}
+          </div>
+          {openIdx === idx && (
+            <div style={{ marginTop: 12, color: '#fff', fontSize: '1.13rem', paddingLeft: 36, fontWeight: 500, lineHeight: 1.6, textShadow: '0 1px 8px rgba(0,0,0,0.18)' }}>
+              {faq.a}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}

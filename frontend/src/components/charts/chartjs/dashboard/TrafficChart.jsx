@@ -41,13 +41,25 @@ function TrafficChart() {
         const newTrafficData = {
         datasets: [
             {
-            data: [30, 30, 40],
-            backgroundColor: [gradientDonut1, gradientDonut2, gradientDonut3],
-            hoverBackgroundColor: [gradientDonut1, gradientDonut2, gradientDonut3],
-            borderColor: [gradientDonut1, gradientDonut2, gradientDonut3]
+            data: [30, 40, 30],
+            backgroundColor: [
+              'rgba(254, 112, 150, 1)', // Red - Electricity
+              'rgba(154, 85, 255, 1)',  // Violet - Travel
+              'rgba(54, 215, 232, 1)'   // Blue - Shopping
+            ],
+            hoverBackgroundColor: [
+              'rgba(254, 112, 150, 1)',
+              'rgba(154, 85, 255, 1)',
+              'rgba(54, 215, 232, 1)'
+            ],
+            borderColor: [
+              'rgba(254, 112, 150, 1)',
+              'rgba(154, 85, 255, 1)',
+              'rgba(54, 215, 232, 1)'
+            ]
             }
         ],
-        labels: ['Search Engines', 'Direct Click', 'Bookmarks Click']
+        labels: ['Electricity', 'Travel', 'Shopping']
     };
 
     setTrafficData(newTrafficData);
@@ -63,6 +75,15 @@ function TrafficChart() {
     plugins: {
         legend: {
         display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.parsed;
+              return `${label}: ${value}%`;
+            }
+          }
         }
     },
     aspectRatio: 1.9,

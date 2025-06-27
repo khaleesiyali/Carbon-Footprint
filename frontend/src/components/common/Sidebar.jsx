@@ -38,9 +38,18 @@ function reducer(state, action) {
 
 function Sidebar() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   const isPathActive = (path) => location.pathname.startsWith(path);
 
+  // Always expand Weekly Input if on any of its subroutes
+  const isWeeklyInputActive = [
+    '/form-elements/advanced-elements',
+    '/form-elements/basic-elements',
+    '/form-elements/validation',
+    '/form-elements',
+  ].some((path) => isPathActive(path));
+
+  // Force drop4 open if on any Weekly Input page
+  const drop4Open = isWeeklyInputActive || state.drop4;
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -493,17 +502,17 @@ function Sidebar() {
             }>
             <div
               className={`nav-link  ${
-                state.menuExpand === "drop4" ? "menu-expanded" : ""
+                state.menuExpand === "drop4" || isWeeklyInputActive ? "menu-expanded" : ""
               }`}
               onClick={() => dispatch({ type: "toggle", menu: "drop4" })}
-              aria-expanded={state.drop4}>
+              aria-expanded={drop4Open}>
               <span className="menu-title">Weekly Input</span>
               <i className="menu-arrow"></i>
               <i className="fa fa-solid fa-file-lines menu-icon"></i>
             </div>
-            <Collapse in={state.drop4}>
+            <Collapse in={drop4Open}>
               <ul className="nav flex-column sub-menu">
-                 <li className="nav-item">
+                <li className="nav-item">
                   <Link
                     className={
                       isPathActive("/form-elements/advanced-elements")
@@ -514,7 +523,6 @@ function Sidebar() {
                     Travel 
                   </Link>
                 </li>
-
                 <li className="nav-item">
                   <Link
                     className={
@@ -526,7 +534,6 @@ function Sidebar() {
                     Electricity 
                   </Link>
                 </li>
-               
                 <li className="nav-item">
                   <Link
                     className={

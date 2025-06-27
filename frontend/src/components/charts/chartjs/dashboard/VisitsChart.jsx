@@ -48,30 +48,30 @@ function VisitsChart() {
       labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
       datasets: [
         {
-          label: 'CHN',
-          borderColor: gradientBar1,
-          backgroundColor: gradientBar1,
-          hoverBackgroundColor: gradientBar1,
+          label: 'Electricity', // Red
+          borderColor: 'rgba(254, 112, 150, 1)',
+          backgroundColor: 'rgba(254, 112, 150, 1)',
+          hoverBackgroundColor: 'rgba(254, 112, 150, 1)',
           pointRadius: 0,
           fill: false,
           borderWidth: 1,
           data: [20, 40, 15, 35, 25, 50, 30, 20]
         },
         {
-          label: 'USA',
-          borderColor: gradientBar2,
-          backgroundColor: gradientBar2,
-          hoverBackgroundColor: gradientBar2,
+          label: 'Travel', // Violet
+          borderColor: 'rgba(154, 85, 255, 1)',
+          backgroundColor: 'rgba(154, 85, 255, 1)',
+          hoverBackgroundColor: 'rgba(154, 85, 255, 1)',
           pointRadius: 0,
           fill: false,
           borderWidth: 1,
           data: [40, 30, 20, 10, 50, 15, 35, 40]
         },
         {
-          label: 'UK',
-          borderColor: gradientBar3,
-          backgroundColor: gradientBar3,
-          hoverBackgroundColor: gradientBar3,
+          label: 'Shopping', // Blue
+          borderColor: 'rgba(54, 215, 232, 1)',
+          backgroundColor: 'rgba(54, 215, 232, 1)',
+          hoverBackgroundColor: 'rgba(54, 215, 232, 1)',
           pointRadius: 0,
           fill: false,
           borderWidth: 1,
@@ -119,6 +119,14 @@ function VisitsChart() {
     plugins: {
       legend: {
         display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            // Show label: value
+            return `${context.dataset.label}: ${context.parsed.y}`;
+          }
+        }
       }
     },
     elements: {

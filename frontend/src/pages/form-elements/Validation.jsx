@@ -15,9 +15,13 @@ const SHOPPING_CATEGORIES = [
     emissionFactor: 50,
   },
   {
-    key: "household",
-    label: "Household Goods",
+    key: "groceries",
+    label: "Groceries",
     emissionFactor: 10,
+    subOptions: [
+      { value: "food", label: "Food & Drinks" },
+      { value: "household_goods", label: "Household Goods" }
+    ]
   },
   {
     key: "streaming",
@@ -36,16 +40,17 @@ function Validation() {
   const [shoppingInputs, setShoppingInputs] = useState({
     clothing: [],
     electronics: [],
-    household: [],
+    groceries: [],
     streaming: [],
   });
   const [currentInput, setCurrentInput] = useState({
-    clothing: { quantity: "", price: "", weight: "", method: null },
-    electronics: { quantity: "", price: "", weight: "", method: null },
-    household: { quantity: "", price: "", weight: "", method: null },
-    streaming: { quantity: "", price: "", weight: "", method: null },
+    clothing: { quantity: "", price: "", method: null, comment: "" },
+    electronics: { quantity: "", price: "", method: null, comment: "" },
+    groceries: { quantity: "", price: "", method: null, subType: null, comment: "" },
+    streaming: { quantity: "", price: "", method: null, comment: "" },
   });
   const [shoppingResult, setShoppingResult] = useState(null);
+  const [shoppingResultsTable, setShoppingResultsTable] = useState([]);
 
   // Handle input change for each category
   const handleInputChange = (category, field, value) => {
@@ -62,14 +67,14 @@ function Validation() {
   const handleAddRow = (category) => {
     const input = currentInput[category];
     // Only add if at least quantity or price is filled
-    if (!input.quantity && !input.price && !input.weight && !input.method) return;
+    if (!input.quantity && !input.price && !input.method) return;
     setShoppingInputs(prev => ({
       ...prev,
       [category]: [...prev[category], input],
     }));
     setCurrentInput(prev => ({
       ...prev,
-      [category]: { quantity: "", price: "", weight: "", method: null },
+      [category]: { quantity: "", price: "", method: null, comment: "" },
     }));
   };
 
@@ -81,20 +86,64 @@ function Validation() {
     }));
   };
 
+  // Remove from results table
+  const handleDeleteResult = (idx) => {
+    setShoppingResultsTable(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  // Handle comment edit in table
+  const handleCommentEdit = (idx, value) => {
+    setShoppingResultsTable(prev => {
+      const updated = [...prev];
+      updated[idx].comment = value;
+      return updated;
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     setValidated(true);
 
-    // Calculate total CO2e
-    let total = 0;
+    // Add one row per item, per category, with the same date
+    const today = new Date().toISOString().slice(0, 10);
+    let newRows = [];
     SHOPPING_CATEGORIES.forEach(cat => {
       shoppingInputs[cat.key].forEach(item => {
+        if (!item.quantity && !item.price && !item.method) return;
         const qty = parseFloat(item.quantity) || 0;
-        total += qty * cat.emissionFactor;
+        const emission = qty * cat.emissionFactor;
+        let details = `${cat.label}: Qty ${item.quantity || 0}`;
+        if (item.price) details += `, Price ${item.price}`;
+        if (cat.key === 'groceries' && item.subType) details += `, Type ${item.subType.label}`;
+        if (item.method) details += `, Method ${item.method.label}`;
+        newRows.push({
+          date: today,
+          category: cat.label,
+          emission: emission,
+          details: details,
+          comment: item.comment || '',
+        });
       });
     });
-    setShoppingResult(total);
+    setShoppingResult(newRows.reduce((acc, row) => acc + row.emission, 0));
+    setShoppingResultsTable(prev => [
+      ...newRows,
+      ...prev
+    ]);
+    // Reset all input fields after calculation
+    setShoppingInputs({
+      clothing: [],
+      electronics: [],
+      groceries: [],
+      streaming: [],
+    });
+    setCurrentInput({
+      clothing: { quantity: "", price: "", method: null, comment: "" },
+      electronics: { quantity: "", price: "", method: null, comment: "" },
+      groceries: { quantity: "", price: "", method: null, subType: null, comment: "" },
+      streaming: { quantity: "", price: "", method: null, comment: "" },
+    });
   };
 
   return (
@@ -107,84 +156,89 @@ function Validation() {
           <div className='card'>
             <div className='card-body'>
               <h4 className='card-title'>Shopping Input</h4>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                {SHOPPING_CATEGORIES.map(cat => (
-                  <div className="mb-4" key={cat.key}>
-                    <h5>{cat.label}</h5>
-                    <div className="row mb-2 align-items-center">
-                      <div className="col-md-3">
-                        <Form.Control
-                          type="number"
-                          min={0}
-                          placeholder="Quantity"
-                          value={currentInput[cat.key].quantity}
-                          onChange={e => handleInputChange(cat.key, "quantity", e.target.value)}
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <Form.Control
-                          type="number"
-                          min={0}
-                          placeholder="Price"
-                          value={currentInput[cat.key].price}
-                          onChange={e => handleInputChange(cat.key, "price", e.target.value)}
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <Form.Control
-                          type="number"
-                          min={0}
-                          placeholder="Weight (kg, optional)"
-                          value={currentInput[cat.key].weight}
-                          onChange={e => handleInputChange(cat.key, "weight", e.target.value)}
-                        />
-                      </div>
-                      {cat.key !== "streaming" && (
-                        <div className="col-md-3">
-                          <Select
-                            value={currentInput[cat.key].method}
-                            onChange={option => handleInputChange(cat.key, "method", option)}
-                            options={METHOD_OPTIONS}
-                            placeholder="Method"
-                          />
+              <Form noValidate validated={validated} onSubmit={e => e.preventDefault()}>
+                <div className="row">
+                  {SHOPPING_CATEGORIES.map(cat => (
+                    <div className="col-md-6 mb-4" key={cat.key}>
+                      <div className="card h-100">
+                        <div className="card-body">
+                          <h5>{cat.label}</h5>
+                          <div className="row mb-2 align-items-center">
+                            <div className="col-6">
+                              <Form.Control
+                                type="number"
+                                min={0}
+                                placeholder="Quantity"
+                                value={currentInput[cat.key].quantity}
+                                onChange={e => handleInputChange(cat.key, "quantity", e.target.value)}
+                              />
+                            </div>
+                            <div className="col-6">
+                              <Form.Control
+                                type="number"
+                                min={0}
+                                placeholder="Price"
+                                value={currentInput[cat.key].price}
+                                onChange={e => handleInputChange(cat.key, "price", e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          {cat.key === "groceries" && (
+                            <div className="row mb-2 align-items-center">
+                              <div className="col-12">
+                                <Select
+                                  value={currentInput[cat.key].subType}
+                                  onChange={option => handleInputChange(cat.key, "subType", option)}
+                                  options={cat.subOptions}
+                                  placeholder="Type"
+                                />
+                              </div>
+                            </div>
+                          )}
+                          {cat.key !== "streaming" && (
+                            <div className="row mb-2 align-items-center">
+                              <div className="col-12">
+                                <Select
+                                  value={currentInput[cat.key].method}
+                                  onChange={option => handleInputChange(cat.key, "method", option)}
+                                  options={METHOD_OPTIONS}
+                                  placeholder="Method"
+                                />
+                              </div>
+                            </div>
+                          )}
+                          <div className="row mb-2 align-items-center">
+                            <div className="col-12">
+                              <Form.Control
+                                as="textarea"
+                                rows={1}
+                                placeholder="Comment/notes"
+                                value={currentInput[cat.key].comment}
+                                onChange={e => handleInputChange(cat.key, "comment", e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <div className="row mb-2">
+                            <div className="col">
+                              <Button
+                                variant="success"
+                                size="sm"
+                                style={{
+                                  color: "#fff",
+                                  backgroundColor: "rgb(67, 209, 162)",
+                                  borderColor: "rgb(67, 209, 162)"
+                                }}
+                                onClick={() => handleAddRow(cat.key)}
+                              >
+                                Add
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                    <div className="row mb-2">
-                      <div className="col">
-                        <Button
-                          variant="success"
-                          size="sm"
-                          style={{
-                            color: "#fff",
-                            backgroundColor: "rgb(67, 209, 162)",
-                            borderColor: "rgb(67, 209, 162)"
-                          }}
-                          onClick={() => handleAddRow(cat.key)}
-                        >
-                          Add
-                        </Button>
                       </div>
                     </div>
-                  </div>
-                ))}
-                {shoppingResult !== null && (
-                  <div className="alert alert-success mt-3" role="alert">
-                    Estimated shopping emissions: {shoppingResult} kg CO₂e
-                  </div>
-                )}
-                <Button
-                  style={{
-                    color: "#fff",
-                    backgroundColor: "rgb(67, 209, 162)",
-                    borderColor: "rgb(67, 209, 162)"
-                  }}
-                  type="submit"
-                  className="mt-3"
-                  variant="success"
-                >
-                  Submit shopping input
-                </Button>
+                  ))}
+                </div>
               </Form>
 
               {/* --- Show all inputted values at the bottom --- */}
@@ -192,16 +246,19 @@ function Validation() {
                 <h5>All Items Added</h5>
                 {SHOPPING_CATEGORIES.map(cat =>
                   shoppingInputs[cat.key].map((item, idx) => {
-                    if (!item.quantity && !item.price && !item.weight && !item.method) return null;
+                    if (!item.quantity && !item.price && !item.method && !item.comment) return null;
                     return (
                       <div key={cat.key + idx} className="d-flex align-items-center mb-2" style={{ borderBottom: "1px solid #eee", paddingBottom: 6 }}>
                         <span style={{ minWidth: 110, fontWeight: 500 }}>{cat.label}:</span>
                         <span className="mx-2">Qty: {item.quantity || 0}</span>
                         <span className="mx-2">Price: {item.price || 0}</span>
-                        <span className="mx-2">Weight: {item.weight || "-"}</span>
+                        {cat.key === "groceries" && (
+                          <span className="mx-2">Type: {item.subType ? item.subType.label : "-"}</span>
+                        )}
                         {cat.key !== "streaming" && (
                           <span className="mx-2">Method: {item.method ? item.method.label : "-"}</span>
                         )}
+                        <span className="mx-2">Comment: {item.comment || "-"}</span>
                         <Button
                           variant="danger"
                           size="sm"
@@ -215,7 +272,69 @@ function Validation() {
                   })
                 )}
               </div>
-              {/* --- End show all inputted values --- */}
+
+              <Button
+                style={{
+                  color: "#fff",
+                  backgroundColor: "rgb(67, 209, 162)",
+                  borderColor: "rgb(67, 209, 162)"
+                }}
+                type="button"
+                className="mt-3"
+                variant="success"
+                onClick={handleSubmit}
+              >
+                Calculate
+              </Button>
+
+              {/* Results Table: one row per item, separated by category, with same date if calculated at once */}
+              <div className="mt-5">
+                <h4 style={{ fontWeight: 600 }}>Shopping Results</h4>
+                <div className="table-responsive">
+                  <table className="table table-bordered align-middle">
+                    <thead style={{ backgroundColor: "rgb(39, 185, 136)", color: "#fff" }}>
+                      <tr>
+                        <th>Date Added</th>
+                        <th>Category</th>
+                        <th>Emissions (tCO2e)</th>
+                        <th>Details</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {shoppingResultsTable.length === 0 && (
+                        <tr>
+                          <td colSpan={6} className="text-center text-muted">No data</td>
+                        </tr>
+                      )}
+                      {shoppingResultsTable.map((row, idx) => (
+                        <tr key={idx}>
+                          <td>{row.date}</td>
+                          <td>{row.category}</td>
+                          <td>{row.emission}</td>
+                          <td>{row.details}</td>
+                          <td>{row.comment}</td>
+                          <td>
+                            <button className="btn btn-danger btn-sm" onClick={() => handleDeleteResult(idx)}>
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-between mt-4">
+                <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/form-elements/basic-elements'}>
+                  Previous
+                </button>
+                <button type="button" className="btn btn-success" onClick={() => window.location.href = '/code-editor'}>
+                  Next
+                </button>
+              </div>
 
             </div>
           </div>

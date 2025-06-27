@@ -17,213 +17,185 @@ function WeeklyTravelForm({ onSubmit }) {
   const [busDays, setBusDays] = useState(0);
   const [trainDays, setTrainDays] = useState(0);
   const [flightTrips, setFlightTrips] = useState(0);
-
   const [carMinutes, setCarMinutes] = useState(0);
   const [busMinutes, setBusMinutes] = useState(0);
   const [trainMinutes, setTrainMinutes] = useState(0);
   const [planeHours, setPlaneHours] = useState(0);
+  // Comment states for each mode
+  const [carComment, setCarComment] = useState("");
+  const [busComment, setBusComment] = useState("");
+  const [trainComment, setTrainComment] = useState("");
+  const [planeComment, setPlaneComment] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) {
-      onSubmit({
-        carDays,
-        busDays,
-        trainDays,
-        flightTrips,
-        carMinutes,
-        busMinutes,
-        trainMinutes,
-      });
+      // Calculate emissions (dummy factors for example)
+      const carEmission = carDays * carMinutes * 0.0002;
+      const busEmission = busDays * busMinutes * 0.0001;
+      const trainEmission = trainDays * trainMinutes * 0.00008;
+      const planeEmission = flightTrips * planeHours * 0.09;
+      // Build separate rows for each mode
+      const today = new Date().toISOString().slice(0, 10);
+      let travelRows = [];
+      if (carDays > 0) {
+        travelRows.push({
+          date: today,
+          emission: carEmission.toFixed(3),
+          details: `Car: ${carDays} days, ${carMinutes} km`,
+          comment: carComment
+        });
+      }
+      if (busDays > 0) {
+        travelRows.push({
+          date: today,
+          emission: busEmission.toFixed(3),
+          details: `Bus: ${busDays} days, ${busMinutes} km`,
+          comment: busComment
+        });
+      }
+      if (trainDays > 0) {
+        travelRows.push({
+          date: today,
+          emission: trainEmission.toFixed(3),
+          details: `Train: ${trainDays} days, ${trainMinutes} km`,
+          comment: trainComment
+        });
+      }
+      if (flightTrips > 0) {
+        travelRows.push({
+          date: today,
+          emission: planeEmission.toFixed(3),
+          details: `Airplane: ${flightTrips} flights, ${planeHours} hours`,
+          comment: planeComment
+        });
+      }
+      onSubmit(travelRows);
+      // Reset all input values after submit
+      setCarDays(0);
+      setBusDays(0);
+      setTrainDays(0);
+      setFlightTrips(0);
+      setCarMinutes(0);
+      setBusMinutes(0);
+      setTrainMinutes(0);
+      setPlaneHours(0);
+      setCarComment("");
+      setBusComment("");
+      setTrainComment("");
+      setPlaneComment("");
     }
   };
 
   return (
-
     <form className="card mb-4" onSubmit={handleSubmit}>
-
       <div className="card-body">
-        
-        <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }}  className="form-label">Days you used a car:</label>
-          <input
-            type="number"
-            min={0}
-            max={7}
-            className="form-control"
-            value={carDays}
-            onChange={e => setCarDays(Number(e.target.value))}
-          />
+        {/* Car Section */}
+        <div className="mb-3 border rounded p-3">
+          <div className="d-flex justify-content-between align-items-center">
+            <div style={{flex: 1}}>
+              <label style={{ fontSize: "1.25rem" }} className="form-label">Days you used a car:</label>
+              <input type="number" min={0} max={7} className="form-control mb-2" value={carDays} onChange={e => setCarDays(Number(e.target.value))} />
+              <label className="form-label">Car trip length: {carMinutes} km</label>
+              <input type="range" min={0} max={180} step={1} className="form-range green-range" value={carMinutes} onChange={e => setCarMinutes(Number(e.target.value))} style={{ accentColor: "#28a745" }} />
+            </div>
+            <div style={{width: 220, marginLeft: 24}}>
+              <label className="form-label">Car comment/notes:</label>
+              <textarea className="form-control" rows={2} value={carComment} onChange={e => setCarComment(e.target.value)} placeholder="Add comment..." />
+            </div>
+          </div>
         </div>
-
-          <div className="mb-3">
-            <label className="form-label">Car trip length: {carMinutes} min</label>
-            <input
-              type="range"
-              min={0}
-              max={180}
-              step={15}
-              className="form-range green-range"
-              value={carMinutes}
-              onChange={e => setCarMinutes(Number(e.target.value))}
-              style={{
-                accentColor: "#28a745"
-              }}
-          />
-          
+        {/* Bus Section */}
+        <div className="mb-3 border rounded p-3">
+          <div className="d-flex justify-content-between align-items-center">
+            <div style={{flex: 1}}>
+              <label style={{ fontSize: "1.25rem" }} className="form-label">Days you rode the bus:</label>
+              <input type="number" min={0} max={7} className="form-control mb-2" value={busDays} onChange={e => setBusDays(Number(e.target.value))} />
+              <label className="form-label">Bus trip length: {busMinutes} km</label>
+              <input type="range" min={0} max={180} step={1} className="form-range green-range" value={busMinutes} onChange={e => setBusMinutes(Number(e.target.value))} style={{ accentColor: "#28a745" }} />
+            </div>
+            <div style={{width: 220, marginLeft: 24}}>
+              <label className="form-label">Bus comment/notes:</label>
+              <textarea className="form-control" rows={2} value={busComment} onChange={e => setBusComment(e.target.value)} placeholder="Add comment..." />
+            </div>
+          </div>
         </div>
-
-        {/* --- Space between car and bus sections --- */}
-        <div style={{ height: 50 }} />
-
-        <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }} className="form-label">Days you rode the bus:</label>
-          <input
-            type="number"
-            min={0}
-            max={7}
-            className="form-control"
-            value={busDays}
-            onChange={e => setBusDays(Number(e.target.value))}
-          />
+        {/* Train Section */}
+        <div className="mb-3 border rounded p-3">
+          <div className="d-flex justify-content-between align-items-center">
+            <div style={{flex: 1}}>
+              <label style={{ fontSize: "1.25rem" }} className="form-label">Days you took the train:</label>
+              <input type="number" min={0} max={7} className="form-control mb-2" value={trainDays} onChange={e => setTrainDays(Number(e.target.value))} />
+              <label className="form-label">Train trip length: {trainMinutes} km</label>
+              <input type="range" min={0} max={180} step={1} className="form-range green-range" value={trainMinutes} onChange={e => setTrainMinutes(Number(e.target.value))} style={{ accentColor: "#28a745" }} />
+            </div>
+            <div style={{width: 220, marginLeft: 24}}>
+              <label className="form-label">Train comment/notes:</label>
+              <textarea className="form-control" rows={2} value={trainComment} onChange={e => setTrainComment(e.target.value)} placeholder="Add comment..." />
+            </div>
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Bus trip length: {busMinutes} min</label>
-          <input
-            type="range"
-            min={0}
-            max={180}
-            step={15}
-            className="form-range green-range"
-            value={busMinutes}
-            onChange={e => setBusMinutes(Number(e.target.value))}
-            style={{
-              accentColor: "#28a745"
-            }}
-          />
+        {/* Airplane Section */}
+        <div className="mb-3 border rounded p-3">
+          <div className="d-flex justify-content-between align-items-center">
+            <div style={{flex: 1}}>
+              <label style={{ fontSize: "1.25rem" }} className="form-label">How many flights this week:</label>
+              <input type="number" min={0} max={5} className="form-control mb-2" value={flightTrips} onChange={e => setFlightTrips(Number(e.target.value))} />
+              <label className="form-label">Plane trip length: {planeHours} hours</label>
+              <input type="range" min={0} max={24} step={1} className="form-range green-range" value={planeHours} onChange={e => setPlaneHours(Number(e.target.value))} style={{ accentColor: "#28a745" }} />
+            </div>
+            <div style={{width: 220, marginLeft: 24}}>
+              <label className="form-label">Airplane comment/notes:</label>
+              <textarea className="form-control" rows={2} value={planeComment} onChange={e => setPlaneComment(e.target.value)} placeholder="Add comment..." />
+            </div>
+          </div>
         </div>
-
-        {/* --- Space between bus and train sections --- */}
-        <div style={{ height: 50 }} />
-
-        <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }} className="form-label">Days you took the train:</label>
-          <input
-            type="number"
-            min={0}
-            max={7}
-            className="form-control"
-            value={trainDays}
-            onChange={e => setTrainDays(Number(e.target.value))}
-          />
-        </div>
-         <div className="mb-3">
-          <label className="form-label">Train trip length: {trainMinutes} min</label>
-          <input
-            type="range"
-            min={0}
-            max={180}
-            step={15}
-            className="form-range green-range"
-            value={trainMinutes}
-            onChange={e => setTrainMinutes(Number(e.target.value))}
-            style={{
-              accentColor: "#28a745"
-            }}
-          />
-        </div>
-
-        {/* --- Space between train and flight sections --- */}
-        <div style={{ height: 50 }} />
-
-        <div className="mb-3">
-          <label style={{ fontSize: "1.25rem" }}  className="form-label">How many flights this week:</label>
-          <input
-            type="number"
-            min={0}
-            max={5}
-            className="form-control"
-            value={flightTrips}
-            onChange={e => setFlightTrips(Number(e.target.value))}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Plane trip length: {planeHours} hours</label>
-          <input
-            type="range"
-            min={0}
-            max={24}
-            step={1}
-            className="form-range green-range"
-            value={planeHours}
-            onChange={e => setPlaneHours(Number(e.target.value))}
-            style={{
-              accentColor: "#28a745"
-            }}
-          />
-        </div>
-
-       <hr />
-<button
-  type="submit"
-  className="btn mt-3"
-  style={{
-    backgroundColor: "rgb(39, 185, 136)",
-    borderColor: "rgb(39, 185, 136)",
-    color: "#fff"
-  }}
->
-  Submit
-</button>
+        <hr />
+        <button
+          type="submit"
+          className="btn mt-3"
+          style={{ backgroundColor: "rgb(39, 185, 136)", borderColor: "rgb(39, 185, 136)", color: "#fff" }}
+        >
+          Calculate
+        </button>
       </div>
-      <style>
-        {`
-          .form-range.green-range::-webkit-slider-thumb {
-            background:rgb(64, 164, 139) !important;
-            border: 2px rgb(64, 164, 139) !important;
-          }
-          .form-range.green-range::-moz-range-thumb {
-            background:rgb(64, 164, 139) !important;
-            border: 2px rgb(64, 164, 139)!important;
-          }
-          .form-range.green-range::-ms-thumb {
-            background:rgb(64, 164, 139)!important;
-            border: 2px rgb(64, 164, 139) #218838 !important;
-          }
-        `}
-      </style>
+      <style>{`
+        .form-range.green-range::-webkit-slider-thumb {
+          background:rgb(64, 164, 139) !important;
+          border: 2px rgb(64, 164, 139) !important;
+        }
+        .form-range.green-range::-moz-range-thumb {
+          background:rgb(64, 164, 139) !important;
+          border: 2px rgb(64, 164, 139)!important;
+        }
+        .form-range.green-range::-ms-thumb {
+          background:rgb(64, 164, 139)!important;
+          border: 2px rgb(64, 164, 139) #218838 !important;
+        }
+      `}</style>
     </form>
   );
 }
 
-
 function AdvancedForm() {
-
-   
-
-  const barEmptyStyle = {
-    display: 'inline-block',
-    width: '12px',
-    height: '28px',
-    backgroundColor: '#b66dff',
-    opacity: 0.5,
-    margin: '1px'
-}
-
-  const barFullStyle = {
-    display: 'inline-block',
-    width: '12px',
-    height: '28px',
-    backgroundColor: '#b66dff',
-    margin: '1px'
-}
-
+  const [travelResults, setTravelResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const handleTravelSubmit = () => {
+  // Accepts array of rows
+  const handleTravelSubmit = (rows) => {
+    setTravelResults(prev => [
+      ...rows,
+      ...prev
+    ]);
     setShowModal(true);
   };
 
+  // Handler for deleting a row
+  const handleDelete = (idx) => {
+    setTravelResults(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  // Close modal
   const closeModal = () => setShowModal(false);
 
   return (
@@ -235,9 +207,47 @@ function AdvancedForm() {
         <h1  style={{ fontSize: "2rem", color: "rgb(67, 209, 162)" }} className="page-title">Weekly Travel Check-In</h1>
       </div>
 
+      {/* Pass handleTravelSubmit to your form component */}
       <WeeklyTravelForm onSubmit={handleTravelSubmit} />
 
-      {/* Simple Modal */}
+      {/* Results Table */}
+      <div className="mt-5">
+        <h4 style={{ fontWeight: 600 }}>Travel Results</h4>
+        <div className="table-responsive">
+          <table className="table table-bordered align-middle">
+            <thead style={{ backgroundColor: "rgb(39, 185, 136)", color: "#fff" }}>
+              <tr>
+                <th>Date Added</th>
+                <th>Emissions (tCO2e)</th>
+                <th>Details</th>
+                <th>Comments</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {travelResults.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="text-center text-muted">No data</td>
+                </tr>
+              )}
+              {travelResults.map((row, idx) => (
+                <tr key={idx}>
+                  <td>{row.date}</td>
+                  <td>{row.emission}</td>
+                  <td>{row.details}</td>
+                  <td>{row.comment}</td>
+                  <td>
+                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(idx)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {showModal && (
         <div
           style={{
@@ -256,300 +266,22 @@ function AdvancedForm() {
             borderRadius: "8px",
             boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
             textAlign: "center",
-            color: "#222", // <-- Ensure text is visible on white background
-            minWidth: "250px"
+            color: "#222", minWidth: "250px"
           }}>
-            <h4 style={{color: "#222", fontSize: "1.3rem"}}>Data has been recorded</h4>
-            <button className="btn btn-success mt-3" onClick={closeModal} style={{fontSize: "1.1rem"}}>OK</button>
+            <h4 style={{ color: "#222", fontSize: "1.3rem" }}>Data has been recorded</h4>
+            <button className="btn btn-success mt-3" onClick={closeModal} style={{ fontSize: "1.1rem" }}>OK</button>
           </div>
         </div>
       )}
-      
-  {/*
-    </div>
 
-   
-  
-      <div className="row">
-        <div className="col-md-4 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Fontawesome Rating</h4>
-              <p className="card-description"> Simple rating with font-awesome icons</p>
-              <Rating 
-                  initialRating={1}
-                  emptySymbol={<i className="fa fa-star" style={{fontSize:'20px', marginRight: '2px', color: '#d2d2d2'}}></i>}
-                  fullSymbol={<i className="fa fa-star text-primary"  style={{fontSize:'20px', marginRight: '2px'}}></i>}
-              />
-            </div>
-          </div>
-        </div>
-        <div className='col-md-4 grid-margin stretch-card'>
-          <div className='card'>
-            <div className='card-body'>
-              <h4 className='card-title'>CSS Rating</h4>
-              <p className="card-description"> CSS star rating</p>
-              <Rating
-                initialRating={1}
-                emptySymbol={<i className="mdi mdi-star-outline me-1" style={{fontSize:'20px', marginRight: '2px', display:'block', color: '#d2d2d2'}}></i>}
-                fullSymbol={<i className="mdi mdi-star-outline text-primary me-1" style={{fontSize:'20px', marginRight: '2px'}}></i>} 
-              />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 grid-margin stretch-card">
-            <div className="card">
-                <div className="card-body">
-                    <h4 className="card-title">1/10 Rating</h4>
-                    <p className="card-description">Rating from 1 to 10</p>
-                    <Rating 
-                        start={1}
-                        stop={10}
-                        initialRating={7}
-                        emptySymbol={<span className='text-primary' style={barEmptyStyle}></span>}
-                        fullSymbol={<span className='text-primary' style={barFullStyle}></span>}
-                    />
-                </div>
-            </div>
-        </div>
+      <div className="d-flex justify-content-between mt-4">
+        <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/dashboard'}>
+          Previous
+        </button>
+        <button type="button" className="btn btn-success" onClick={() => window.location.href = '/form-elements/basic-elements'}>
+          Next
+        </button>
       </div>
-      <div className='row'>
-        <div className="col-md-4 grid-margin stretch-card">
-            <div className="card">
-                <div className="card-body">
-                    <h4 className="card-title">Fractional Rating</h4>
-                    <p className="card-description"> Enable fractional rating such as 2.5</p>
-                    <Rating 
-                        initialRating={2.5}
-                        emptySymbol={<i className="fa fa-star" style={{fontSize:'30px', marginRight: '2px', color: '#d2d2d2'}}></i>}
-                        fullSymbol={<i className="fa fa-star text-primary"  style={{fontSize:'30px', marginRight: '2px'}}></i>}
-                        fractions={2}
-                    />
-                </div>
-            </div>
-        </div>
-        <div className="col-md-4 grid-margin stretch-card">
-            <div className="card">
-                <div className="card-body">
-                    <h4 className="card-title">Custom each symbol</h4>
-                    <p className="card-description"> Custom symbol for each value</p>
-                    <Rating
-                        stop={4}
-                        emptySymbol="fa fa-battery-empty fa-3x me-1"
-                        fullSymbol={['fa fa-battery-quarter fa-3x text-primary me-1', 'fa fa-battery-half fa-3x text-primary me-1', 'fa fa-battery-three-quarters fa-3x text-primary me-1', 'fa fa-battery-full fa-3x text-primary me-1']}
-                    />
-                </div>
-            </div>
-        </div>
-      <div className="col-md-4 grid-margin stretch-card">
-          <div className="card">
-              <div className="card-body">
-                  <h4 className="card-title">Reverse Rating</h4>
-                  <p className="card-description">Rating from 9 to 1</p>
-                  <Rating
-                      start={11}
-                      stop={1}
-                      step={-2}
-                      initialRating={7}
-                      emptySymbol={<span style={barEmptyStyle}></span>}
-                      fullSymbol={<span style={barFullStyle}></span>}
-                      onChange={(rate) => {document.querySelector('#selectedValue').innerHTML= rate || ''}}
-                      onHover={(rate) => {document.querySelector('#hoveredValue').innerHTML= rate || ''}}
-                  />
-                  <label className="d-block">Selected Value: <span id="selectedValue">7</span></label>
-                  <label className="d-block">Hovered Value: <span id="hoveredValue"></span></label>
-              </div>
-          </div>
-      </div>
-      </div>
-      <div className='row'>
-        <div className='col-md-6 grid-margin stretch-card'>
-          <div className='card'>
-            <div className='card-body'>
-              <h4 className='card-title'>React Hook From</h4>
-              <p className="card-description">React hook form</p>
-              <div className='template-demo'>
-                <div className='editable-form'>
-                <HookForm />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='col-md-6 grid-margin stretch-card'>
-          <div className='card'>
-            <div className='card-body'>
-              <h4 className='card-title'>Form Mask</h4>
-              <p className="card-description">Gives a preview of input format</p>
-              <FormMask />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-          <div className="col-12 grid-margin stretch-card">
-              <div className="card">
-                  <div className="card-body">
-                      <h4 className="card-title">Dropzone</h4>
-                      <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-                        {({getRootProps, getInputProps}) => (
-                          <section>
-                            <div {...getRootProps() } style={{minHeight: '200px', border: '1px solid #ebedf2'}}>
-                              <input {...getInputProps()} />
-                              <p className="text-center my-5">Drag &apos;n&apos; drop some files here, or click to select files</p>
-                            </div>
-                          </section>
-                        )}
-                      </Dropzone>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div className="row">
-          <div className="col-lg-6 d-flex flex-column">
-              <div className="row flex-grow">
-                  <div className="col-12 grid-margin stretch-card">
-                      <div className="card">
-                          <div className="card-body">
-                              <h4 className="card-title">Datepicker (Default)</h4>
-                              <p className="card-description">Click to open datepicker</p>
-                              <DefaultDatepicker />
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div className="row flex-grow">
-                  <div className="col-12 grid-margin stretch-card">
-                      <div className="card">
-                          <div className="card-body">
-                              <h4 className="card-title">Clockpicker (Default)</h4>
-                              <p className="card-description">A simple clockpicker</p>
-                              <DefaultTimePicker />
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div className="col-lg-6 stretch-card grid-margin">
-          <div className="card">
-              <div className="card-body">
-                  <h4 className="card-title">Inline Datepicker</h4>
-                  <p className="card-description">An inline datepicker</p>
-                  <InlineDatePicker />
-              </div>
-          </div>
-          </div>
-      </div>
-      <div className="row">
-          <div className="col-12 grid-margin stretch-card">
-              <div className="card">
-                  <div className="card-body">
-                      <h4 className="card-title">Date Range</h4>
-                      <p className="card-description">A simple date range picker</p>
-                      <DateRangePicker />
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div className="row">
-          <div className="col-12 grid-margin">
-              <div className="card">
-                  <div className="row">
-                      <div className="col-lg-6">
-                          <div className="card-body">
-                              <h4 className="card-title">Form Repeater</h4>
-                              <p className="card-description">Click the add button to repeat the form</p>
-                              <FormRepeater />
-                          </div>
-                      </div>
-                      <div className="col-lg-6">
-                          <div className="card-body">
-                              <h4 className="card-title">Input Tag</h4>
-                              <p className="card-description">Type to add a new tag </p>
-                              <TagsInput />
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div className='row'>
-        <div className="col-lg-6 stretch-card">
-          <div className="card">
-              <div className="card-body">
-                  <h4 className="card-title">React Select</h4>
-                  <p className="card-description">Single select box using react select</p>
-                  <Select 
-                      options={[
-                          { value: 'chocolate', label: 'Chocolate' },
-                          { value: 'strawberry', label: 'Strawberry' },
-                          { value: 'vanilla', label: 'Vanilla' }
-                      ]}
-                  />
-                  <p className="card-description mt-4">Multiple select using react select</p>
-                  <Select 
-                      isMulti={true}
-                      options={[
-                          { value: 'violet', label: 'Violet' },
-                          { value: 'indigo', label: 'Indigo' },
-                          { value: 'blue', label: 'Blue' },
-                          { value: 'green', label: 'Green' },
-                          { value: 'yellow', label: 'Yellow' },
-                          { value: 'orange', label: 'Orange' },
-                          { value: 'red', label: 'Red' },
-                          { value: 'black', label: 'Black' },
-                          { value: 'white', label: 'White' }
-                      ]}
-                  />
-              </div>
-          </div>
-        </div>
-        <div className="col-lg-6 stretch-card">
-            <div className="card">
-                <div className="card-body">
-                    <h4 className="card-title">Typeahead</h4>
-                    <p className="card-description">Type and select an option from the suggestions</p>
-                    <Typeahead
-                        labelKey="label"
-                        id="typeahead-single"
-                        options={[
-                            { value: 'violet', label: 'Violet' },
-                            { value: 'indigo', label: 'Indigo' },
-                            { value: 'blue', label: 'Blue' },
-                            { value: 'green', label: 'Green' },
-                            { value: 'yellow', label: 'Yellow' },
-                            { value: 'orange', label: 'Orange' },
-                            { value: 'red', label: 'Red' },
-                            { value: 'black', label: 'Black' },
-                            { value: 'white', label: 'White' }
-                        ]}
-                        placeholder="Choose a Color..."
-                    />
-
-                    <p className="card-description">Multi select using typeahead</p>
-                    <Typeahead
-                        labelKey="label"
-                        id="typeahead-multiple"
-                        multiple={true}
-                        options={[
-                            { value: 'violet', label: 'Violet' },
-                            { value: 'indigo', label: 'Indigo' },
-                            { value: 'blue', label: 'Blue' },
-                            { value: 'green', label: 'Green' },
-                            { value: 'yellow', label: 'Yellow' },
-                            { value: 'orange', label: 'Orange' },
-                            { value: 'red', label: 'Red' },
-                            { value: 'black', label: 'Black' },
-                            { value: 'white', label: 'White' }
-                        ]}
-                        placeholder="Choose a Color..."
-                    />
-
-                </div>
-            </div>
-        </div>
-      </div>
-      */}
     </div>
 
     

@@ -1,5 +1,6 @@
 INPUT SIDEBAR (RENAME)
 * AdvancedForm --> Travel (Input)
-* BasicInfo --> Electricity 
+* BasicForm --> Electricity 
 * Validation --> Shopping
 * Code editor --> Results
+

@@ -115,7 +115,7 @@ import Documentation from "../pages/documentation/Documentation";
 function AppRoutes() {
   return (
       <Routes>
-        {/* <Route path="/" element={<Navigate to="/dashboard" />} />         */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         {/* <Route exact path="/rtl" element={<Rtl />} />  commented out for now  */}
           {/* <Route path="/apps/kanban" element={<Kanban />} /> */}
