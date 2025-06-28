@@ -11,6 +11,9 @@ import TwoColumnForm from "../../components/forms/TwoColumnForm"
 import { useState } from "react";
 import applianceService from "../../services/appliance";
 
+// This is a mock data for appliances, you can replace it with your own data or fetch from an API
+// Uncomment the following lines if you want to use mock data instead of fetching from an API
+/*
 const APPLIANCES = [
   { name: "Air conditioner", watt: 580 },
   { name: "IH cooking heater", watt: 2500 },
@@ -22,10 +25,12 @@ const APPLIANCES = [
   { name: "Washing machine", watt: 450 },
   { name: "Tumbler dryer", watt: 1300 },
 ];
+*/
 
-
-/*const APPLIANCES = []
-applianceService.getAll().then(appliances => appliances.forEach(appliance => APPLIANCES.push(appliance))); */
+// Fetch appliances from the service
+// Comment this line if you want to use mock data instead
+const APPLIANCES = []
+applianceService.getAll().then(appliances => appliances.forEach(appliance => APPLIANCES.push({name: appliance.name, watt: appliance.watt_hour_per_hour}))); 
 
 
 function ElectricityUsageForm() {
