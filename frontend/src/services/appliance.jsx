@@ -18,4 +18,4 @@ const newAppliance = async (appliance) => {
     return request.data;
 }
 
-export default {getAll, getById, newAppliance,};
+export default {getAll, getById, newAppliance};
