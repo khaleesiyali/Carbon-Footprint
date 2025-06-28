@@ -142,8 +142,8 @@ function Dashboard() {
       <div className='row'>
         <div className='col-md-7 grid-margin stretch-card'>
           <div className='card'>
-            <div className='card-body d-flex flex-column align-items-center'>
-              <div className='clearfix mb-4 w-100'>
+            <div className='card-body'>
+              <div className='clearfix mb-4'>
                 <h4 className='card-title float-start' style={{ fontSize: '1.5rem' }}>Monthly Carbon Emissions Report</h4>
                 <div id='visit-sale-chart-legend' className='rounded-legend legend-horizontal legend-top-right float-end'>
                   <ul>
@@ -159,11 +159,7 @@ function Dashboard() {
                   </ul>
                 </div>
               </div>
-              <div className="w-100 d-flex justify-content-center" style={{ minHeight: 420, height: 420, maxWidth: '98%' }}>
-                <div style={{ width: '100%', height: 400, maxWidth: 700 }}>
-                  <VisitsChart />
-                </div>
-              </div>
+              <VisitsChart />
             </div>
           </div>
         </div>
@@ -172,12 +168,10 @@ function Dashboard() {
         
         <div className='col-md-5 grid-margin stretch-card'>
           <div className='card'>
-            <div className='card-body d-flex flex-column align-items-center'>
+            <div className='card-body'>
               <h4 className='card-title' style={{ fontSize: '1.3rem' }}>Percentage of Carbon Emissions</h4>
-              <div className="w-100 d-flex justify-content-center">
-                <TrafficChart />
-              </div>
-              <div id='traffic-chart-legend' className='rounded-legend legend-vertical legend-bottom-left pt-4 w-100'>
+              <TrafficChart />
+              <div id='traffic-chart-legend' className='rounded-legend legend-vertical legend-bottom-left pt-4'>
                 <ul>
                   <li>
                     <span className="legend-dots" style={{backgroundColor: 'rgba(154, 85, 255, 1)'}}></span>Travel
