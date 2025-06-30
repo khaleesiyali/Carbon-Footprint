@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.viewsets import ModelViewSet
-from .models import Appliance, UsageRecord, Category, ShoppingRecord
+from .models import Appliance, UsageRecord, Category, ShoppingRecord, TravelRecord
 from .serializers import ApplianceSerializer, UsageRecordSerializer, CategorySerializer, ShoppingRecordSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -59,4 +59,13 @@ def shopping_summary(request, guest_id):
     return Response({
         "guest_id": guest_id,
         "total_shopping_emissions_kg": round(total_kg, 2)
+    })
+
+@api_view(['GET'])
+def travel_summary(request,guest_id):
+    records = TravelRecord.objects.filter(guest_id=guest_id)
+    total_kg = sum(r.emission_kg() for r in records)
+    return Response({
+        "guest_id": guest_id,
+        "total_travel_emissions_kg": round(total_kg, 2)
     })
