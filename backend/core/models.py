@@ -47,3 +47,21 @@ class ShoppingRecord(models.Model):
     def __str__(self):
         return f"{self.guest_id} bought {self.quantity}x {self.category.label}"
 
+class TravelRecord(models.Model):
+    guest_id = models.CharField(max_length=100)
+    mode = models.CharField(max_length=50) #e.g., "ca", "plane", "bus", "railway"
+    distance_km = models.FloatField(help_text="Distance travelled in kilometers")
+
+    def emission_kg(self):
+        factors = {
+            'car':127,
+            'plane': 94,
+            'bus': 63,
+            'railway': 17,
+            }
+        # Default to car if mode is unknown
+        factor = factors.get(self.mode.lower(), 127)
+        return (factor * self.distance_km) / 1000
+
+    def __str__(self):
+        return f"{self.guest_id} travelled {self.distance_km}km x {self.mode}"
