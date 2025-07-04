@@ -1,6 +1,7 @@
 import logo from "../../assets/images/CarbonLeafLogo.png";
 import logo_mini from "../../assets/images/MINICarbonLeafLogo.png";
 import {Dropdown} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
  
 function Navbar() {
 
@@ -27,12 +28,12 @@ function Navbar() {
     <>
     <nav className='navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row'>
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a className="navbar-brand brand-logo" to="/dashboard">
+            <Link className="navbar-brand brand-logo nav-link" to="/dashboard">
                 <img src={logo} alt="logo" style={{ height: '150px', width: 'auto' }} />
-            </a>
-            <a className="navbar-brand brand-logo-mini" to="/dashboard">
+            </Link>
+            <Link className="navbar-brand brand-logo-mini nav-link" to="/dashboard">
                 <img src={logo_mini} alt="logo" style={{ height: '50px', width: 'auto' }} />
-            </a>
+            </Link>
         </div>
         <div className="navbar-menu-wrapper d-flex align-items-stretch">
             <button className="navbar-toggler navbar-toggler align-self-center" type="button" onClick={() => document.body.classList.toggle('sidebar-icon-only')}>

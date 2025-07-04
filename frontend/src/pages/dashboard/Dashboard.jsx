@@ -20,6 +20,8 @@ function Dashboard() {
   };
 
   const navigate = useNavigate();
+  // Hover state for Get Started button
+  const [btnHover, setBtnHover] = useState(false);
   
   // State and effect to reset GIF key on refresh
   const [gifKey, setGifKey] = useState(0);
@@ -102,25 +104,46 @@ function Dashboard() {
                       <div className='col-md-5 grid-margin'>
                         <div className='card'>
                           <div className='card-body'>
-                            <h1 className='card-title' style={{ fontSize: '2.5rem' }}>{greeting}</h1>
+                            <h1
+                              className='card-title'
+                              style={{
+                                fontSize: '2.5rem',
+                                background: 'linear-gradient(90deg, #27b988, #fe7096, #9a55ff, #36d7e8)',
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent'
+                              }}
+                            >
+                              {greeting}
+                            </h1>
                             <br />
                             <p className='card-description' style={{ fontSize: '1.2rem' }}>
-                              Welcome to CarbonLeaf. Here you can calculate your own carbon footprint, track your progress, and learn more about how to reduce your impact on the environment. Ready to get started? Let's go!
+                              Welcome to CarbonLeaf. Here you can calculate your own carbon footprint, track your progress, and learn more about how to reduce your impact on the environment. 
                             </p>
                             <br />
                             <br />
                             <div className="d-flex justify-content-start mt-1">
                               <Button
-                                variant="success"
-                                style={{
-                                    backgroundColor: "rgb(39, 185, 136)",
-                                    borderColor: "rgb(39, 185, 136)",
-                                    color: "#fff",  
-                                  fontSize: "1.1rem"
-                                }}
+                                variant="link"
                                 onClick={() => navigate('/form-elements/advanced-elements')}
+                                onMouseEnter={() => setBtnHover(true)}
+                                onMouseLeave={() => setBtnHover(false)}
+                                style={{ background: 'none', border: 'none', padding: 0, textDecoration: 'none' }}
                               >
-                                Get Started
+                                <span
+                                  style={btnHover ? {
+                                    background: 'linear-gradient(90deg, #27b988, #fe7096, #9a55ff, #36d7e8)',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent',
+                                    fontSize: '1.5rem',
+                                    textDecoration: 'none'
+                                  } : {
+                                    color: '#fff',
+                                    fontSize: '1.5rem',
+                                    textDecoration: 'none'
+                                  }}
+                                >
+                                  Get Started
+                                </span>
                               </Button>
                             </div>
                           </div>

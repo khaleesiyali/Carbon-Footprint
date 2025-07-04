@@ -149,7 +149,7 @@ function Validation() {
   return (
     <div>
       <div className='page-header'>
-        <h1 style={{ fontSize: "2rem", color: "rgb(67, 209, 162)" }} className="page-title">Shopping Habits</h1>
+        <h1 style={{ fontSize: "2rem", color: "rgb(67, 209, 162)" }} className="page-title">Weekly Shopping</h1>
       </div>
       <div className='row'>
         <div className='col-md-12 grid-margin'>
@@ -331,7 +331,7 @@ function Validation() {
                 <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/form-elements/basic-elements'}>
                   Previous
                 </button>
-                <button type="button" className="btn btn-success" onClick={() => window.location.href = '/code-editor'}>
+                <button type="button" className="btn" style={{ backgroundColor: '#27b988', borderColor: '#27b988', color: '#fff' }} onClick={() => window.location.href = '/code-editor'}>
                   Next
                 </button>
               </div>

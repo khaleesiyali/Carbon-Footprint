@@ -406,7 +406,7 @@ function BasicForm() {
         <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/form-elements/advanced-elements'}>
           Previous
         </button>
-        <button type="button" className="btn btn-success" onClick={() => window.location.href = '/form-elements/validation'}>
+        <button type="button" className="btn btn-success" style={{ backgroundColor: '#27b988', borderColor: '#27b988', color: '#fff' }} onClick={() => window.location.href = '/form-elements/validation'}>
           Next
         </button>
       </div>
