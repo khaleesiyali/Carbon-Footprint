@@ -7,7 +7,10 @@ import TodoApp from '../../components/apps/TodoApp'
 import InlineDatePicker from '../../components/forms/InlineDatePicker'
 import { useNavigate } from 'react-router-dom'
 import AdvancedForm from '../form-elements/AdvancedForm'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import AMGif from '../../assets/images/AM.gif';
+import NoonGif from '../../assets/images/Noon.gif';
+import PMGif from '../../assets/images/PM.gif';
 
 
 function Dashboard() {
@@ -17,6 +20,20 @@ function Dashboard() {
   };
 
   const navigate = useNavigate();
+  
+  // State and effect to reset GIF key on refresh
+  const [gifKey, setGifKey] = useState(0);
+  useEffect(() => {
+    setGifKey(Date.now());
+  }, []);
+
+  // Select appropriate GIF based on time of day
+  function getGifSrc() {
+    const hour = new Date().getHours();
+    if (hour < 12) return AMGif;
+    if (hour < 18) return NoonGif;
+    return PMGif;
+  }
 
   // Get greeting based on current time
   function getGreeting() {
@@ -25,6 +42,18 @@ function Dashboard() {
     if (hour >= 12) return 'Good Afternoon!';
     return 'Good Morning!';
   }
+
+  // Get a friendly message from Leaf based on current time
+  function getLeafMessage() {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Hi there!! Hope you have a wonderful day today.';
+    if (hour < 15) return 'You are half way there! still rocking the day??';
+    if (hour < 18) return 'Hello there, don\'t forget to give some time to rest yourself. You got this!!';
+    if (hour < 21) return 'Long day, huh! What’s your plan for dinner tonight?';
+    return 'You made it through the day. Time to power down and recharge!';
+  }
+
+  const greeting = getGreeting();
 
   return (
     <div>
@@ -68,27 +97,43 @@ function Dashboard() {
               <div className='col-12 grid-margin'>
                 <div className='card'>
                   <div className='card-body'>
-                    <h1 className='card-title' style={{ fontSize: '2.5rem' }}>{getGreeting()}</h1>
-                    <br/ >
-                    <p className='card-description' style={{ fontSize: '1.2rem' }}>
-                      Welcome to (name). Here you can calculate your own carbon footprint, track your progress, and learn more about how to reduce your impact on the environment. Ready to get started? Let's go!
-                    </p>
-                    <div className="d-flex justify-content-start mt-1">
-                      <Button
-                        variant="success"
-                        style={{
-                            backgroundColor: "rgb(39, 185, 136)",
-                            borderColor: "rgb(39, 185, 136)",
-                            color: "#fff",  
-                          fontSize: "1.1rem"
-                        }}
-                        onClick={() => navigate('/form-elements/advanced-elements')}
-                      >
-                        Get Started
-                      </Button>
-                      
+                    {/* Introduction and Leaf message */}
+                    <div className='row align-items-center'>
+                      <div className='col-md-5 grid-margin'>
+                        <div className='card'>
+                          <div className='card-body'>
+                            <h1 className='card-title' style={{ fontSize: '2.5rem' }}>{greeting}</h1>
+                            <br />
+                            <p className='card-description' style={{ fontSize: '1.2rem' }}>
+                              Welcome to CarbonLeaf. Here you can calculate your own carbon footprint, track your progress, and learn more about how to reduce your impact on the environment. Ready to get started? Let's go!
+                            </p>
+                            <br />
+                            <br />
+                            <div className="d-flex justify-content-start mt-1">
+                              <Button
+                                variant="success"
+                                style={{
+                                    backgroundColor: "rgb(39, 185, 136)",
+                                    borderColor: "rgb(39, 185, 136)",
+                                    color: "#fff",  
+                                  fontSize: "1.1rem"
+                                }}
+                                onClick={() => navigate('/form-elements/advanced-elements')}
+                              >
+                                Get Started
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className='col-md-7 grid-margin'>
+                        <div className='card h-100'>
+                          <div className='card-body d-flex align-items-center justify-content-center p-0' style={{height: '100%'}}> 
+                            <img key={gifKey} src={getGifSrc()} alt='CarbonLeaf Logo' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  
                   </div>
                 </div>
               </div>
@@ -237,49 +282,68 @@ function Dashboard() {
 
 export default Dashboard
 
-// FAQList component
+// Revamped FAQList component adopting block_dark style
 function FAQList() {
   const [openIdx, setOpenIdx] = useState(null);
   const faqs = [
-    {
-      q: "What is a carbon footprint?",
-      a: "A carbon footprint is the total amount of greenhouse gases, primarily carbon dioxide, that are emitted directly or indirectly by your activities."
-    },
-    {
-      q: "How does this website calculate my carbon footprint?",
-      a: "This website uses your input data for travel, electricity, and shopping to estimate your carbon emissions using standard emission factors."
-    },
-    {
-      q: "How can I reduce my carbon footprint?",
-      a: "You can reduce your carbon footprint by using public transport, conserving electricity, buying local products, and reducing waste."
-    },
-    {
-      q: "Is my data private and secure?",
-      a: "Yes, your data is kept private and is only used to help you track and reduce your carbon emissions."
-    },
-    {
-      q: "Can I track my progress over time?",
-      a: "Yes, you can track your carbon emissions over time using the dashboard and results pages."
-    }
+    { q: "What is a carbon footprint?", a: "A carbon footprint is the greenhouse gas emissions that are caused directly and indirectly by a person or an organization over a specific period.", resources: [ { title: "What is a carbon footprint, and how is it measured? | Ecologi", url: "https://ecologi.com/articles/blog/what-is-a-carbon-footprint-and-how-is-it-measured", type: "Article" } ] },
+    { q: "Why should I calculate my carbon footprint?", a: "It’s important to calculate your carbon footprint because it helps identify the major sources of emissions so you can target and reduce them effectively.", resources: [ { title: "7 Reasons to Start Measuring Your Carbon Footprint Now | OneCarbonWorld", url: "https://www.onecarbonworld.com/articles/7-reasons-to-start-measuring-your-carbon-footprint-now", type: "Article" } ] },
+    { q: "What can I do to reduce my carbon footprint?", a: "There are many strategies such as improving home insulation, choosing renewable energy, reducing travel emissions, and changing consumption habits.", resources: [ { title: "How to reduce your carbon footprint | Panda.org", url: "https://explore.panda.org/climate/how-to-reduce-your-carbon-footprint", type: "Article" }, { title: "35 Ways to Reduce Your Carbon Footprint – State of the Planet", url: "https://news.climate.columbia.edu/2018/12/27/35-ways-reduce-carbon-footprint/", type: "Article" }, { title: "How to reduce your carbon footprint by 80% | Matthew Tolley | TEDxTelford", url: "https://www.ted.com/talks/matthew_tolley_how_to_reduce_your_carbon_footprint_by_80", type: "Video" } ] },
+    { q: "What’s your mission?", a: "Our goal is to empower each individual and organizations to better understand their carbon footprint and reduce our collective emissions for our home – Mother Earth.", resources: [] },
+    { q: "Do small actions make a difference?", a: "Yes. While big systemic change is important, small actions done collectively drive awareness and policy changes.", resources: [] }
   ];
   return (
     <div style={{ width: '100%' }}>
-      {faqs.map((faq, idx) => (
-        <div key={idx} style={{ borderBottom: '1px solid #444', padding: '18px 0', transition: 'background 0.2s', background: openIdx === idx ? 'rgba(255,255,255,0.04)' : 'transparent' }}>
-          <div
-            style={{ cursor: 'pointer', fontWeight: 600, fontSize: '1.18rem', color: '#fff', display: 'flex', alignItems: 'center', letterSpacing: '0.2px' }}
-            onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
-          >
-            <span style={{ marginRight: 12, fontSize: '1.2rem', color: '#28e07b' }}>{openIdx === idx ? '▼' : '▶'}</span>
-            {faq.q}
-          </div>
-          {openIdx === idx && (
-            <div style={{ marginTop: 12, color: '#fff', fontSize: '1.13rem', paddingLeft: 36, fontWeight: 500, lineHeight: 1.6, textShadow: '0 1px 8px rgba(0,0,0,0.18)' }}>
-              {faq.a}
+      {faqs.map((faq, idx) => {
+        const isOpen = openIdx === idx;
+        return (
+          <div key={idx} style={{ background: '#343a40', borderRadius: '8px', marginBottom: '16px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+            <button
+              onClick={() => setOpenIdx(isOpen ? null : idx)}
+              aria-expanded={isOpen}
+              aria-controls={`faq-content-${idx}`}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '16px', background: 'transparent', border: 'none', color: '#fff', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer'
+              }}
+            >
+              <span>{faq.q}</span>
+              <span style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform 0.3s', fontSize: '1.4rem', color: '#28a745' }}>+</span>
+            </button>
+            <div
+              id={`faq-content-${idx}`}
+              style={{ maxHeight: isOpen ? '600px' : '0px', overflow: 'hidden', transition: 'max-height 0.5s ease' }}
+              aria-labelledby={`faq-button-${idx}`}
+            >
+              <div style={{ padding: isOpen ? '16px' : '0 16px', color: '#e9ecef', fontSize: '1rem', lineHeight: '1.6' }}>
+                <p style={{ margin: 0 }}>{faq.a}</p>
+                {faq.resources && faq.resources.length > 0 && (
+                  <div style={{ marginTop: '12px' }}>
+                    <p style={{ fontWeight: 600, marginBottom: '8px', color: '#28a745' }}>Related Resources</p>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                      {faq.resources.map((res, rIdx) => (
+                        <a
+                          key={rIdx}
+                          href={res.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'none', width: 'calc(50% - 12px)', minWidth: '200px', borderRadius: '6px', background: '#495057', overflow: 'hidden', boxShadow: '0 1px 6px rgba(0,0,0,0.2)' }}
+                        >
+                          <img src={`https://www.google.com/s2/favicons?domain=${new URL(res.url).hostname}`} alt="favicon" style={{ width: '40px', height: '40px', margin: '12px', float: 'left' }} />
+                          <div style={{ padding: '12px 12px 12px 60px' }}>
+                            <div style={{ fontWeight: 600, color: '#fff' }}>{res.title}</div>
+                            <div style={{ fontSize: '0.85rem', color: '#adb5bd', marginTop: '4px' }}>{res.type}</div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
