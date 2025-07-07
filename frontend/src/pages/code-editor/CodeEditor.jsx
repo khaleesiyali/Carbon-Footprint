@@ -98,15 +98,17 @@ function ResultTable({ title, data, onCommentChange, onDelete, onEdit, onSave, e
 }
 
 function CodeEditor() {
+  // Dynamic current date
+  const today = new Date().toISOString().slice(0, 10);
   // Example state for each input type
   const [electricity, setElectricity] = useState([
-    { date: "2024-06-23", emission: 0.12, details: "Weekly Energy Consumption: 100kWh", comment: "" }
+    { date: today, emission: 0.12, details: "Weekly Energy Consumption: 100kWh", comment: "" }
   ]);
   const [travel, setTravel] = useState([
-    { date: "2024-06-23", emission: 0.25, details: "Car: 3 days, Bus: 2 days", comment: "" }
+    { date: today, emission: 0.25, details: "Car: 3 days, Bus: 2 days", comment: "" }
   ]);
   const [shopping, setShopping] = useState([
-    { date: "2024-06-23", emission: 0.08, details: "Clothing: 2 items", comment: "" }
+    { date: today, emission: 0.08, details: "Clothing: 2 items", comment: "" }
   ]);
 
   // Editing state
