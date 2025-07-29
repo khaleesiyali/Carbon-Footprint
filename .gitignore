@@ -1,0 +1,41 @@
+# ---- Global ----
+*.log
+*.pot
+*.pyc
+__pycache__/
+.DS_Store
+.env
+.env.local
+.env.*.local
+*.sqlite3
+
+# ---- Python / Django ----
+venv/
+build/
+dist/
+*.egg-info/
+*.db
+*.bak
+
+# Django migration files (optional if you're resetting often)
+# core/migrations/
+
+# ---- VSCode / IDEs ----
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ---- Frontend (React) ----
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
+
+# ---- Backend (PostgreSQL) ----
+*.psql
+*.dump
+*.sql
+
+# ---- System Files ----
+Thumbs.db
