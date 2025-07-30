@@ -11,6 +11,7 @@ import TagsInput from '../../components/forms/TagsInput';
 import Select from 'react-select'
 import { Typeahead } from 'react-bootstrap-typeahead'; 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function WeeklyTravelForm({ onSubmit }) {
   const [carDays, setCarDays] = useState(0);
@@ -180,6 +181,7 @@ function WeeklyTravelForm({ onSubmit }) {
 function AdvancedForm() {
   const [travelResults, setTravelResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   // Accepts array of rows
   const handleTravelSubmit = (rows) => {
@@ -275,10 +277,10 @@ function AdvancedForm() {
       )}
 
       <div className="d-flex justify-content-between mt-4">
-        <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/dashboard'}>
+        <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => navigate('/dashboard')}>
           Previous
         </button>
-        <button type="button" className="btn btn-success" onClick={() => window.location.href = '/form-elements/basic-elements'}>
+        <button type="button" className="btn btn-success" onClick={() => navigate('/form-elements/basic-elements')}>
           Next
         </button>
       </div>

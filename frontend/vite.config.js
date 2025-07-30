@@ -21,6 +21,7 @@ export default defineConfig({
   //   }
   // },
   build: {
+    outDir: "build",
     sourcemap: true
   },
   server: {
@@ -28,5 +29,5 @@ export default defineConfig({
     historyApiFallback: true,
     host: true,
   },
-  base: "/"
+  base: "/Carbon-Footprint/"
 })

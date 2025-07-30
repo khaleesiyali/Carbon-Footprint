@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Select from 'react-select'; 
@@ -36,6 +37,7 @@ const METHOD_OPTIONS = [
 ];
 
 function Validation() {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [shoppingInputs, setShoppingInputs] = useState({
     clothing: [],
@@ -328,10 +330,10 @@ function Validation() {
               </div>
 
               <div className="d-flex justify-content-between mt-4">
-                <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => window.location.href = '/form-elements/basic-elements'}>
+                <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#e0e0e0', color: '#222', border: 'none' }} onClick={() => navigate('/form-elements/advanced-elements')}>
                   Previous
                 </button>
-                <button type="button" className="btn" style={{ backgroundColor: '#27b988', borderColor: '#27b988', color: '#fff' }} onClick={() => window.location.href = '/code-editor'}>
+                <button type="button" className="btn" style={{ backgroundColor: '#27b988', borderColor: '#27b988', color: '#fff' }} onClick={() => navigate('/code-editor')}>
                   Next
                 </button>
               </div>
