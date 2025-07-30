@@ -115,7 +115,10 @@ import Documentation from "../pages/documentation/Documentation";
 function AppRoutes() {
   return (
       <Routes>
+        {/* Redirect root to dashboard */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Catch-all unknown paths */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         {/* <Route exact path="/rtl" element={<Rtl />} />  commented out for now  */}
           {/* <Route path="/apps/kanban" element={<Kanban />} /> */}
